@@ -1,0 +1,19 @@
+@model TeamDetailViewModel
+<section class="panel" aria-labelledby="club-scorers-title">
+  <div class="panel__head">
+    <h2 class="panel__title" id="club-scorers-title" data-shaolin-text="Altın Bacaklar">Golcüler</h2>
+  </div>
+  @if (!Model.TopScorers.Any())
+  {
+      <p class="summary-note" style="padding-top:16px">Henüz gol kaydı yok.</p>
+  }
+  else
+  {
+      <ol class="club-scorers">
+        @foreach (var (player, goals) in Model.TopScorers)
+        {
+            <li><span>@player</span><strong>@goals <small>gol</small></strong></li>
+        }
+      </ol>
+  }
+</section>

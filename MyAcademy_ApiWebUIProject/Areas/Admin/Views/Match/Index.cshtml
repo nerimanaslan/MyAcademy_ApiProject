@@ -1,0 +1,28 @@
+@model AdminMatchesPageViewModel
+@{
+    ViewData["Title"] = "Maç Yönetimi";
+    ViewData["Crumb"] = "Yönetim / Maçlar";
+}
+
+<div class="page-head">
+    <div>
+        <span class="page-eyebrow">Serie A 2026/27</span>
+        <h1 class="page-title">Maç Yönetimi</h1>
+        <p class="page-desc">Serie A karşılaşmalarını görüntüleyebilir, ekleyebilir, düzenleyebilir ve silebilirsiniz.</p>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+        <form asp-action="RandomizeScores" method="post" class="inline-form"
+              data-confirm="@(ViewBag.week != null ? $"{ViewBag.week}. haftadaki" : "Tüm haftalardaki") oynanmamış maçlara rastgele skor ve gol atanacak. Onaylıyor musunuz?">
+            <input type="hidden" name="week" value="@ViewBag.week" />
+            <button type="submit" class="btn-a" style="background:#7B1FA2;color:#fff;border:none;">🎲 Rastgele Skorlar Ata</button>
+        </form>
+        <a asp-action="Create" class="btn-a btn-a--primary">
+            <svg class="icon" aria-hidden="true"><use href="#i-plus"/></svg>Yeni Maç Ekle
+        </a>
+    </div>
+</div>
+
+<section class="card-a" aria-label="Maç listesi">
+    <partial name="Partials/_MatchFilterPartial" />
+    <partial name="Partials/_MatchTablePartial" model="Model.Matches" />
+</section>

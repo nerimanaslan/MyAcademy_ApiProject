@@ -1,0 +1,46 @@
+﻿@model MatchViewModel
+@{
+    var statusName = Model.Status switch
+    {
+        "Finished" => "Tamamlandı",
+        "Live" => "Canlı",
+        "NotStarted" => "Başlamadı",
+        "Postponed" => "Ertelendi",
+        _ => Model.Status
+    };
+}
+<li>
+  <a href="/Matches/Detail/@Model.Id" class="fixture-card fixture-card--@Model.Status">
+    <div class="fx-meta">
+      <span class="fx-time">@Model.KickoffTime</span>
+      <span class="status status--@Model.Status">@statusName</span>
+      @if (Model.DerbyName != null)
+      {
+          <span class="derby-tag" title="@Model.DerbyName">🔥 Derbi</span>
+      }
+    </div>
+    <div class="fx-team fx-team--home">
+      <span class="fx-name">@Model.HomeTeamName</span>
+      <span class="team-crest" style="--crest-a:@Model.HomeColorA;--crest-b:@Model.HomeColorB;">@Model.HomeTeamCode</span>
+    </div>
+    <div class="fx-score">
+      @if (Model.Status == "Finished" || Model.Status == "Live")
+      {
+          <span>@Model.HomeScore</span>
+          <span class="fx-score__sep"></span>
+          <span>@Model.AwayScore</span>
+      }
+      else
+      {
+          <span class="fx-score--empty">vs</span>
+      }
+    </div>
+    <div class="fx-team fx-team--away">
+      <span class="team-crest" style="--crest-a:@Model.AwayColorA;--crest-b:@Model.AwayColorB;">@Model.AwayTeamCode</span>
+      <span class="fx-name">@Model.AwayTeamName</span>
+    </div>
+    <div class="fx-action">
+      <span class="fx-link">Detay &rarr;</span>
+    </div>
+  </a>
+</li>

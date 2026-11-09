@@ -1,0 +1,37 @@
+﻿@model FixturesPageViewModel
+@{
+    var matchesByDate = Model.Matches.GroupBy(x => x.MatchDate.Date).OrderBy(g => g.Key);
+}
+<section class="panel" aria-labelledby="fixtures-title">
+  <div class="panel__head" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+    <div>
+      <h2 class="panel__title" id="fixtures-title" data-shaolin-text="Haftanın Düelloları">Haftanın Maçları</h2>
+      <span class="panel__sub">Seçili haftanın tüm maçları</span>
+    </div>
+  </div>
+  <div class="fixtures-list">
+    @if (Model.Matches.Any())
+    {
+        @foreach (var dayGroup in matchesByDate)
+        {
+            var dateStr = dayGroup.Key.ToString("dd MMMM yyyy, dddd", new System.Globalization.CultureInfo("tr-TR"));
+            <div class="day-group">
+              <div class="day-head">
+                <h3 class="day-head__date">@dateStr</h3>
+                <span class="day-head__count">@dayGroup.Count() maç</span>
+              </div>
+              <ul class="day-list">
+                @foreach (var m in dayGroup)
+                {
+                    <partial name="Partials/_FixtureCardPartial" model="m" />
+                }
+              </ul>
+            </div>
+        }
+    }
+    else
+    {
+        <p style="padding:20px;color:var(--muted);text-align:center;">Bu hafta için henüz maç kaydı bulunmuyor.</p>
+    }
+  </div>
+</section>

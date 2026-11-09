@@ -1,0 +1,25 @@
+@{
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString();
+    string Active(string name) => controller == name ? "is-active" : "";
+}
+<aside class="admin-sidebar" id="admin-sidebar" aria-label="Yönetim menüsü">
+  <a class="sidebar-brand" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">
+    <span class="brand-mark" aria-hidden="true">SA</span>
+    <span class="brand-text">Serie A Admin</span>
+  </a>
+  <p class="sidebar-label">Yönetim</p>
+  <ul class="sidebar-nav">
+    <li><a class="sidebar-link @Active("Dashboard")" asp-area="Admin" asp-controller="Dashboard" asp-action="Index"><svg class="icon" aria-hidden="true"><use href="#i-home"/></svg>Ana Sayfa</a></li>
+    <li><a class="sidebar-link @Active("Match")" asp-area="Admin" asp-controller="Match" asp-action="Index"><svg class="icon" aria-hidden="true"><use href="#i-ball"/></svg>Maçlar</a></li>
+    <li><a class="sidebar-link @Active("Team")" asp-area="Admin" asp-controller="Team" asp-action="Index"><svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg>Takımlar</a></li>
+  </ul>
+  <p class="sidebar-label">Site</p>
+  <ul class="sidebar-nav">
+    <li><a class="sidebar-link" asp-area="" asp-controller="Fixtures" asp-action="Index"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg>Fikstür</a></li>
+    <li><a class="sidebar-link" asp-area="" asp-controller="Standings" asp-action="Index"><svg class="icon" aria-hidden="true"><use href="#i-table"/></svg>Puan Durumu</a></li>
+  </ul>
+  <div class="sidebar-foot">
+    <span class="sidebar-season">Sezon 2026/27</span>
+    <a class="sidebar-link sidebar-link--logout" asp-area="" asp-controller="Standings" asp-action="Index"><svg class="icon" aria-hidden="true"><use href="#i-logout"/></svg>Siteye Dön</a>
+  </div>
+</aside>

@@ -1,0 +1,32 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.rsuser
+*.slnLaunch.user
+
+# .NET build çıktıları
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+TestResults/
+*.nupkg
+
+# Yerel ayar ve gizli bilgiler
+appsettings.Development.local.json
+appsettings.*.local.json
+*.env
+.env
+
+# Yerel veritabanı dosyaları
+*.mdf
+*.ldf
+*.db
+
+# Sistem ve editör
+Thumbs.db
+Desktop.ini
+.DS_Store
+.vscode/
+.claude/

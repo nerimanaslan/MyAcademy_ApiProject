@@ -1,0 +1,48 @@
+@model TeamDetailViewModel
+@{
+    var t = Model.Team;
+    var s = Model.Standing;
+    var tr = new System.Globalization.CultureInfo("tr-TR");
+    var zoneName = s?.Zone switch
+    {
+        "ucl" => "Şampiyonlar Ligi bölgesi",
+        "uel" => "Avrupa Ligi bölgesi",
+        "conf" => "Konferans Ligi bölgesi",
+        "rel" => "Düşme hattı",
+        _ => "Orta sıralar"
+    };
+}
+<header class="fixtures-hero club-hero">
+  <div class="hero-league">
+    <a class="hero-league__name club-back" asp-controller="Standings" asp-action="Index"><span class="league-mark" aria-hidden="true">SA</span>Puan durumuna dön</a>
+    <span class="club-region">@Model.RegionName</span>
+  </div>
+  <div class="club-hero__row">
+    <span class="team-crest club-crest" style="--crest-a:@t.ColorA;--crest-b:@t.ColorB" aria-hidden="true">@t.Code</span>
+    <div class="club-hero__main">
+      <h1 class="hero-title">@t.Name</h1>
+      <ul class="club-facts">
+        <li><span>Şehir</span>@t.City</li>
+        <li><span>Stadyum</span>@t.Stadium</li>
+        <li><span>Kapasite</span>@t.Capacity.ToString("N0", tr)</li>
+        <li><span>Kuruluş</span>@t.Founded</li>
+      </ul>
+      @foreach (var d in Model.Derbies)
+      {
+          <a class="derby-tag" asp-controller="Matches" asp-action="Detail" asp-route-id="@d.Match.Id">🔥 @d.Name · @d.Match.Week. hafta</a>
+      }
+    </div>
+    @if (s != null)
+    {
+        <dl class="hero-meta club-rank">
+          <div><dt>Sıra</dt><dd>@s.Position.</dd></div>
+          <div><dt>Puan</dt><dd>@s.Points</dd></div>
+          <div><dt>Averaj</dt><dd>@(s.GoalDifference > 0 ? "+" : "")@s.GoalDifference</dd></div>
+        </dl>
+    }
+  </div>
+  @if (s != null)
+  {
+      <p class="club-zone club-zone--@s.Zone">@zoneName</p>
+  }
+</header>

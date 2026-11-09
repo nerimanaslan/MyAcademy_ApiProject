@@ -1,0 +1,27 @@
+@model AdminTeamsPageViewModel
+@{
+    ViewData["Title"] = "Takım Yönetimi";
+    ViewData["Crumb"] = "Yönetim / Takımlar";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/admin-teams.css" asp-append-version="true">
+}
+
+<div class="page-head">
+    <div>
+        <span class="page-eyebrow">Serie A 2026/27</span>
+        <h1 class="page-title">Takım Yönetimi</h1>
+        <p class="page-desc">Serie A kulüplerini görüntüleyebilir, ekleyebilir, düzenleyebilir ve silebilirsiniz.</p>
+    </div>
+    <a asp-action="Create" class="btn-a btn-a--primary">
+        <svg class="icon" aria-hidden="true"><use href="#i-plus"/></svg>Yeni Takım Ekle
+    </a>
+</div>
+
+<partial name="Partials/_TeamStripPartial" model="Model.AllTeams" />
+
+<section class="card-a" aria-label="Takım listesi">
+    <partial name="Partials/_TeamFilterPartial" />
+    <partial name="Partials/_TeamTablePartial" model="Model" />
+</section>

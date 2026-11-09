@@ -1,0 +1,63 @@
+@model List<MatchViewModel>
+<div class="table-scroll">
+  <table class="match-table">
+    <caption class="visually-hidden">Serie A maç listesi</caption>
+    <thead>
+      <tr>
+        <th scope="col" class="col-id">ID</th>
+        <th scope="col">Hafta</th>
+        <th scope="col">Tarih</th>
+        <th scope="col">Saat</th>
+        <th scope="col">Ev Sahibi</th>
+        <th scope="col" class="col-score">Skor</th>
+        <th scope="col">Deplasman</th>
+        <th scope="col">Durum</th>
+        <th scope="col" class="col-actions">İşlemler</th>
+      </tr>
+    </thead>
+    <tbody>
+      @if (!Model.Any())
+      {
+          <tr class="table-empty"><td colspan="9"><strong>Kayıt bulunamadı</strong>Filtreleri değiştirin ya da Temizle ile tüm maçları gösterin.</td></tr>
+      }
+      @foreach (var m in Model.OrderBy(x => x.Week).ThenBy(x => x.MatchDate))
+      {
+          <tr>
+            <td class="col-id"><span>@m.Id</span></td>
+            <td class="week-cell">@m.Week. Hafta</td>
+            <td>@m.MatchDate.ToString("dd.MM.yyyy")</td>
+            <td>@m.KickoffTime</td>
+            <td><span class="team"><span class="team-crest" style="--crest-a:@m.HomeColorA;--crest-b:@m.HomeColorB" aria-hidden="true"></span>@m.HomeTeamName</span></td>
+            <td class="col-score">
+              @if (m.HasScore)
+              {
+                  <span class="score">@m.HomeScore - @m.AwayScore</span>
+              }
+              else
+              {
+                  <span class="score score--empty">-</span>
+              }
+            </td>
+            <td><span class="team"><span class="team-crest" style="--crest-a:@m.AwayColorA;--crest-b:@m.AwayColorB" aria-hidden="true"></span>@m.AwayTeamName</span></td>
+            <td><span class="badge-a badge-a--@m.Status">@m.StatusName</span></td>
+            <td class="col-actions">
+              <div class="row-actions">
+                <a class="act-btn" asp-area="" asp-controller="Matches" asp-action="Detail" asp-route-id="@m.Id" title="Detay" aria-label="Detay: @m.HomeTeamName - @m.AwayTeamName"><svg class="icon" aria-hidden="true"><use href="#i-eye"/></svg></a>
+                @if (m.HasScore)
+                {
+                    <a class="act-btn" asp-action="Statistics" asp-route-id="@m.Id" title="İstatistikler" aria-label="İstatistikler: @m.HomeTeamName - @m.AwayTeamName"><svg class="icon" aria-hidden="true"><use href="#i-table"/></svg></a>
+                }
+                <a class="act-btn" asp-action="Update" asp-route-id="@m.Id" title="Düzenle" aria-label="Düzenle: @m.HomeTeamName - @m.AwayTeamName"><svg class="icon" aria-hidden="true"><use href="#i-edit"/></svg></a>
+                <a class="act-btn act-btn--danger" asp-action="Delete" asp-route-id="@m.Id" title="Sil" aria-label="Sil: @m.HomeTeamName - @m.AwayTeamName"
+                   data-confirm="@m.HomeTeamName - @m.AwayTeamName (ID @m.Id, @m.Week. Hafta) kalıcı olarak silinecek. Bu işlem geri alınamaz."><svg class="icon" aria-hidden="true"><use href="#i-trash"/></svg></a>
+              </div>
+            </td>
+          </tr>
+      }
+    </tbody>
+  </table>
+</div>
+<div class="table-foot">
+  <span>@Model.Count maç listeleniyor</span>
+  <span>Sezon 2026/27</span>
+</div>

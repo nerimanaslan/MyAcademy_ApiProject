@@ -1,0 +1,50 @@
+﻿@model MatchDetailViewModel
+@if (Model.Timeline.Any())
+{
+    <section class="flow-strip" aria-labelledby="flow-title">
+      <div class="flow-head">
+        <h2 class="flow-title" id="flow-title">Maç akışı</h2>
+        <p class="flow-hint">Ayrıntısını görmek için bir olaya dokun</p>
+      </div>
+      <div class="flow-scroll">
+        <div class="flow-track">
+          <span class="flow-side-label flow-side-label--home">
+            <span class="team-crest team-crest--xs" style="--crest-a:@Model.HomeTeam.ColorA;--crest-b:@Model.HomeTeam.ColorB;">@Model.HomeTeam.Code</span>
+          </span>
+          <span class="flow-side-label flow-side-label--away">
+            <span class="team-crest team-crest--xs" style="--crest-a:@Model.AwayTeam.ColorA;--crest-b:@Model.AwayTeam.ColorB;">@Model.AwayTeam.Code</span>
+          </span>
+          <span class="flow-axis" aria-hidden="true"></span>
+          <span class="flow-half" aria-hidden="true"><span>Devre arası</span></span>
+          <span class="flow-tick" style="--x:calc(15 / 95 * 100%)">15'</span>
+          <span class="flow-tick" style="--x:calc(30 / 95 * 100%)">30'</span>
+          <span class="flow-tick" style="--x:calc(45 / 95 * 100%)">45'</span>
+          <span class="flow-tick" style="--x:calc(60 / 95 * 100%)">60'</span>
+          <span class="flow-tick" style="--x:calc(75 / 95 * 100%)">75'</span>
+          <span class="flow-tick" style="--x:calc(90 / 95 * 100%)">90'</span>
+
+          @foreach (var ev in Model.Timeline)
+          {
+              var clampedMin = Math.Min(95, (int)ev.Minute);
+              <button type="button"
+                      class="flow-marker flow-marker--@(ev.IsHome ? "home" : "away") flow-marker--@ev.Type"
+                      style="--m:@clampedMin"
+                      data-flow-ref="@ev.Id"
+                      aria-label="@(ev.Minute). dakika, @ev.Player"
+                      title="@(ev.Minute)' @ev.Player (@ev.Meta)">
+                <span class="flow-marker__dot">
+                  @if (ev.Type == "goal")
+                  {
+                      <svg class="i-ball" aria-hidden="true"><use href="#i-ball"/></svg>
+                  }
+                  else if (ev.Type == "card")
+                  {
+                      <span class="i-card @(ev.CardType == "Red" ? "i-card--red" : "i-card--yellow")"></span>
+                  }
+                </span>
+              </button>
+          }
+        </div>
+      </div>
+    </section>
+}

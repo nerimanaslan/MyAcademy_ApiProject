@@ -1,0 +1,23 @@
+﻿@model AdminDashboardViewModel
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-label">Toplam Takım</div>
+    <div class="stat-val">@Model.ActiveTeams <small style="font-size:1.1rem;color:var(--dim)">/ @Model.TotalTeams</small></div>
+    <div class="stat-sub">20 Aktif Serie A Takımı</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Toplam Maç</div>
+    <div class="stat-val">@Model.TotalMatches</div>
+    <div class="stat-sub">@Model.FinishedMatches Tamamlandı</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Toplam Gol</div>
+    <div class="stat-val">@Model.TotalGoals</div>
+    <div class="stat-sub">Maç Başı @Model.AverageGoalsPerMatch Gol</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Lig Lideri</div>
+    <div class="stat-val" style="color:var(--blue)">@Model.LeaderTeam</div>
+    <div class="stat-sub">@Model.LeaderPoints Puan</div>
+  </div>
+</div>

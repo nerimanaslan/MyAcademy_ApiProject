@@ -1,0 +1,152 @@
+﻿/* =============================================================
+   Şaolin Modu - Shaolin Soccer filminden esinlenen isteğe bağlı tema
+   Tüm kurallar html[data-shaolin="on"] altında: mod kapalıyken orijinal tasarım hiç değişmez.
+   Film görseli/müziği kullanılmaz; her şey CSS + SVG ile çizilir.
+   1 Renk tokenları   2 Arka plan (gün batımı + dağlar)   3 Başlık bölümleri + menü
+   4 Kuşaklar (puan bölgeleri)   5 Ustanın sözü   6 (Chi Düellosu effects.css içinde)
+   7 Ateş topu gol animasyonu   8 Hareket azaltma
+   ============================================================= */
+
+.shaolin-only { display: none !important; }
+html[data-shaolin="on"] .shaolin-only { display: block !important; }
+
+/* 1. Renk tokenları: mavi vurgu yerine altın, lacivert yerine koyu kırmızı */
+html[data-shaolin="on"] {
+  --bg: #170605;
+  --bg-2: #210a08;
+  --surface: #2a0e0b;
+  --surface-2: #38130f;
+  --line: #5c2417;
+  --line-soft: rgba(92, 36, 23, .6);
+  --line-hover: #7d3520;
+  --text: #FFF3DF;
+  --text-2: #F0D6B2;
+  --muted: #C9A584;
+  --dim: #9A7559;
+  --blue: #E8A317;
+  --blue-bright: #FFC94D;
+  --blue-soft: rgba(232, 163, 23, .16);
+  --ice: #E2643B;
+  --home: #E8A317;
+  --away: #E2643B;
+  --red: #FF4B3E;
+}
+
+/* 2. Arka plan: gün batımı ışığı + dağ silüeti */
+html[data-shaolin="on"] body {
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(900px 420px at 50% -6%, rgba(255, 166, 43, .28), transparent 65%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 300' preserveAspectRatio='none'%3E%3Cpath d='M0 300V190l120-70 90 50 140-110 120 90 80-40 150 100 110-60 140 80 120-90 130 70 110-50 140 90 150-60V300z' fill='%23260a07'/%3E%3Cpath d='M0 300v-60l160-50 120 40 170-70 140 60 120-30 160 70 140-40 170 50 130-50 190 60V300z' fill='%23310d09'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: top center, bottom center;
+  background-size: auto, 100% 260px;
+  background-attachment: scroll, fixed;
+}
+
+/* 3. Başlık bölümleri + menü */
+html[data-shaolin="on"] .standings-hero,
+html[data-shaolin="on"] .fixtures-hero,
+html[data-shaolin="on"] .match-hero {
+  border-color: #7d3520;
+  background: linear-gradient(160deg, #5a160f 0%, #2d0b08 55%, #1d0705 100%);
+}
+html[data-shaolin="on"] .standings-hero::after,
+html[data-shaolin="on"] .fixtures-hero::after {
+  background: linear-gradient(90deg, #C81E1E 0%, #E8A317 40%, transparent 80%);
+}
+html[data-shaolin="on"] .league-mark { background: linear-gradient(145deg, #FFC94D, #C81E1E); box-shadow: 0 6px 18px rgba(200, 30, 30, .45); }
+html[data-shaolin="on"] .hero-title { color: #FFE1A6; text-shadow: 0 2px 0 #6b1a0f, 0 0 26px rgba(232, 163, 23, .35); }
+html[data-shaolin="on"] .public-nav { background: #120403; border-bottom-color: #6b2a17; }
+html[data-shaolin="on"] .public-nav__brand span:first-child { background: #C81E1E; }
+html[data-shaolin="on"] .public-nav__link:hover,
+html[data-shaolin="on"] .public-nav__link.is-active { background: #3d120c; }
+
+/* 4. Kuşaklar: puan bölgeleri kung-fu kuşak renklerine döner */
+html[data-shaolin="on"] .standings-row.zone-ucl    { --zone: #111; --tint: rgba(255, 201, 77, .10); }
+html[data-shaolin="on"] .standings-row.zone-europe { --zone: #8B4A1C; --tint: rgba(139, 74, 28, .14); }
+html[data-shaolin="on"] .standings-row.zone-rel    { --zone: #F4EEE2; --tint: rgba(244, 238, 226, .06); }
+html[data-shaolin="on"] .standings-row.zone-ucl .col-pos::before { box-shadow: 0 0 0 1px #FFC94D; }
+html[data-shaolin="on"] .standings-row .team-name::after {
+  display: inline-block; margin-left: 8px; padding: 1px 7px; border-radius: 3px;
+  font-size: .68rem; font-weight: 700; letter-spacing: .04em; vertical-align: middle;
+}
+html[data-shaolin="on"] .standings-row.zone-ucl .team-name::after    { content: "SİYAH KUŞAK"; background: #111; color: #FFC94D; box-shadow: inset 0 0 0 1px #FFC94D; }
+html[data-shaolin="on"] .standings-row.zone-europe .team-name::after { content: "KAHVE KUŞAK"; background: #8B4A1C; color: #FFE9CC; }
+html[data-shaolin="on"] .standings-row.zone-rel .team-name::after    { content: "BEYAZ KUŞAK"; background: #F4EEE2; color: #5a2318; }
+html[data-shaolin="on"] .zone-chip--ucl    { --dot: #111; }
+html[data-shaolin="on"] .zone-chip--europe { --dot: #8B4A1C; }
+html[data-shaolin="on"] .zone-chip--rel    { --dot: #F4EEE2; }
+html[data-shaolin="on"] .legend-swatch[data-belt="black"] { --swatch: #111 !important; box-shadow: 0 0 0 1px #FFC94D; }
+html[data-shaolin="on"] .legend-swatch[data-belt="brown"] { --swatch: #8B4A1C !important; }
+html[data-shaolin="on"] .legend-swatch[data-belt="brown2"] { --swatch: #B26A33 !important; }
+html[data-shaolin="on"] .legend-swatch[data-belt="white"] { --swatch: #F4EEE2 !important; }
+html[data-shaolin="on"] .ladder-marker.zone-ucl    { --ring: #FFC94D; }
+html[data-shaolin="on"] .ladder-marker.zone-europe { --ring: #B26A33; }
+html[data-shaolin="on"] .ladder-marker.zone-rel    { --ring: #F4EEE2; }
+
+/* 5. Ustanın sözü (menünün altında) */
+.master-quote {
+  margin: 0; padding: 9px 16px; text-align: center;
+  background: linear-gradient(90deg, transparent, rgba(200, 30, 30, .35), transparent);
+  border-bottom: 1px solid #5c2417;
+  color: #FFE1A6; font-family: "Barlow", sans-serif; font-size: .92rem; font-style: italic;
+}
+.master-quote b { font-style: normal; color: #FFC94D; letter-spacing: .04em; margin-right: 6px; }
+
+/* 7. Ateş topu gol animasyonu (shaolin.js oluşturur) */
+.fireball-stage { position: fixed; inset: 0; z-index: 3000; overflow: hidden; pointer-events: none; }
+.fireball-stage::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 50% 50%, rgba(255, 140, 0, .0), rgba(30, 5, 0, .55)); animation: stage-dim 2.6s ease forwards; }
+.fireball {
+  position: absolute; left: -12vw; top: 78vh; width: 90px; height: 90px; border-radius: 50%;
+  background: radial-gradient(circle at 38% 35%, #fff 0 12%, #FFF3A0 20%, #FFB000 42%, #FF4B00 64%, rgba(200, 30, 0, 0) 72%);
+  box-shadow: 0 0 40px 18px rgba(255, 120, 0, .75), 0 0 110px 50px rgba(255, 60, 0, .45);
+  animation: fireball-fly 1.05s cubic-bezier(.55, .05, .7, .4) forwards;
+}
+.fireball::before, .fireball::after {   /* alev kuyruğu */
+  content: ""; position: absolute; top: 50%; right: 55%; height: 60%; border-radius: 50%;
+  transform-origin: right center;
+  transform: translateY(-50%) rotate(-22deg);   /* kuyruk uçuş yönünün tersine (sol-aşağı) baksın */
+  filter: blur(6px);
+}
+.fireball::before { width: 260px; background: linear-gradient(90deg, transparent, rgba(255, 70, 0, .55) 50%, rgba(255, 190, 0, .9)); }
+.fireball::after  { width: 160px; height: 34%; background: linear-gradient(90deg, transparent, rgba(255, 240, 160, .9)); }
+.fireball-burst { position: absolute; left: 50%; top: 45%; width: 20px; height: 20px; border-radius: 50%; transform: translate(-50%, -50%); box-shadow: 0 0 0 0 rgba(255, 180, 0, .9); animation: burst .7s ease-out 1s forwards; opacity: 0; }
+.fireball-spark { position: absolute; left: 50%; top: 45%; width: 8px; height: 8px; border-radius: 50%; background: #FFD25A; box-shadow: 0 0 10px #FF7A00; opacity: 0; animation: spark .9s ease-out 1s forwards; }
+.fireball-text {
+  position: absolute; left: 50%; top: 45%; transform: translate(-50%, -50%) scale(.4); opacity: 0;
+  display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; white-space: nowrap;
+  font-family: "Barlow Condensed", "Arial Narrow", sans-serif; color: #fff;
+  animation: fire-text .5s cubic-bezier(.2, 1.6, .4, 1) 1.05s forwards, fade-out .5s ease-in 3.4s forwards;
+}
+.fireball-text strong { font-size: clamp(4rem, 12vw, 8rem); line-height: .9; letter-spacing: .06em; color: #FFE27A; -webkit-text-stroke: 2px #8a1a00; text-shadow: 0 0 30px #FF6A00, 0 6px 0 #6b1300; }
+.fireball-text span { padding: 4px 18px; border-radius: 6px; font-size: 1.8rem; font-weight: 700; background: var(--team-a); box-shadow: 0 0 0 3px var(--team-b); }
+.fireball-text small { font-family: "Barlow", sans-serif; font-size: 1rem; opacity: .95; text-shadow: 0 1px 4px #000; }
+.fireball-text em { font-size: 1.1rem; font-style: normal; letter-spacing: .2em; color: #FFC94D; }
+/* body'ye transform verilirse fixed sahne kayar; bu yüzden sayfa içeriği sallanır */
+body.is-shaking > main,
+body.is-shaking > .public-nav { animation: shake .45s cubic-bezier(.36, .07, .19, .97) 1.02s both; }
+
+@keyframes fireball-fly {
+  0%   { transform: translate(0, 0) scale(.5); }
+  92%  { transform: translate(calc(50vw + 12vw - 45px), calc(-33vh - 45px)) scale(1.6); opacity: 1; }
+  100% { transform: translate(calc(50vw + 12vw - 45px), calc(-33vh - 45px)) scale(2.6); opacity: 0; }   /* patlamada yok olur */
+}
+@keyframes burst { 0% { opacity: 1; box-shadow: 0 0 0 0 rgba(255, 180, 0, .9); } 100% { opacity: 0; box-shadow: 0 0 0 60vmax rgba(255, 120, 0, 0); } }
+@keyframes spark { 0% { opacity: 1; transform: translate(-50%, -50%); } 100% { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(.3); } }
+@keyframes fire-text { to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
+@keyframes fade-out { to { opacity: 0; } }
+@keyframes stage-dim { 0% { opacity: 0; } 20%, 80% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes shake {
+  10%, 90% { transform: translate(-2px, 1px); }
+  20%, 80% { transform: translate(4px, -2px); }
+  30%, 50%, 70% { transform: translate(-7px, 3px); }
+  40%, 60% { transform: translate(7px, -3px); }
+}
+
+/* 8. Hareket azaltma tercihi */
+@media (prefers-reduced-motion: reduce) {
+  .fireball, .fireball-spark, .fireball-burst { animation: none !important; display: none; }
+  body.is-shaking > main, body.is-shaking > .public-nav { animation: none !important; }
+  .fireball-text { animation: none !important; opacity: 1; transform: translate(-50%, -50%); }
+}

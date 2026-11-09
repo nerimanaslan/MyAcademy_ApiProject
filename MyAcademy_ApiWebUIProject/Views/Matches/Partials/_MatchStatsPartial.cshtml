@@ -1,0 +1,70 @@
+﻿@model MatchDetailViewModel
+@{
+    var s = Model.Statistic;
+    var inv = System.Globalization.CultureInfo.InvariantCulture;
+
+    // Kartlar maç olaylarından sayılır, diğer değerler API'deki istatistik kaydından gelir
+    var rows = new List<(string Label, int Home, int Away, bool Muted)>();
+    if (s != null)
+    {
+        rows.AddRange(s.Rows.Select(r => (r.Label, r.Home, r.Away, r.Label is "Faul" or "Ofsayt")));
+    }
+    rows.Add(("Sarı Kart", Model.HomeCards.Count(c => c.CardType == "Yellow"), Model.AwayCards.Count(c => c.CardType == "Yellow"), true));
+    rows.Add(("Kırmızı Kart", Model.HomeCards.Count(c => c.CardType == "Red"), Model.AwayCards.Count(c => c.CardType == "Red"), true));
+
+    string Width(int part, int total) => total == 0 ? "0%" : $"calc({(part * 100.0 / total).ToString("0.#", inv)}% - 2px)";
+}
+<section class="panel" aria-labelledby="stats-title">
+  <div class="panel__head">
+    <h2 class="panel__title" id="stats-title">İstatistikler</h2>
+    <div class="stats-teams" aria-hidden="true">
+      <span>
+        <span class="team-crest team-crest--xs" style="--crest-a:@Model.HomeTeam.ColorA;--crest-b:@Model.HomeTeam.ColorB;">@Model.HomeTeam.Code</span>
+        @Model.HomeTeam.Name
+      </span>
+      <span>
+        @Model.AwayTeam.Name
+        <span class="team-crest team-crest--xs" style="--crest-a:@Model.AwayTeam.ColorA;--crest-b:@Model.AwayTeam.ColorB;">@Model.AwayTeam.Code</span>
+      </span>
+    </div>
+  </div>
+
+  @if (s != null)
+  {
+      <div class="possession">
+        <div class="possession__row">
+          <span class="possession__value">%@s.HomePossession</span>
+          <span class="possession__label">Topa sahip olma</span>
+          <span class="possession__value possession__value--away">%@s.AwayPossession</span>
+        </div>
+        <div class="possession__bar" aria-hidden="true">
+          <span style="flex:@s.HomePossession;background:var(--home)"></span>
+          <span style="flex:@s.AwayPossession;background:var(--away)"></span>
+        </div>
+      </div>
+  }
+  else
+  {
+      <p class="item-empty" style="padding:16px 20px 0;margin:0">
+        @(Model.Status is "Finished" or "Live" ? "Bu maç için istatistik girilmemiş." : "İstatistikler maç başladığında görünecek.")
+      </p>
+  }
+
+  <ul class="stat-list">
+    @foreach (var r in rows)
+    {
+        var total = r.Home + r.Away;
+        <li class="stat-row @(r.Muted ? "stat-row--muted" : "")">
+          <div class="stat-row__values">
+            <span class="stat-val @(r.Home > r.Away ? "is-lead" : "")">@r.Home</span>
+            <span class="stat-row__label">@r.Label</span>
+            <span class="stat-val stat-val--away @(r.Away > r.Home ? "is-lead" : "")">@r.Away</span>
+          </div>
+          <div class="stat-bar" aria-hidden="true">
+            <span class="bar-home" style="--w:@Width(r.Home, total)"></span>
+            <span class="bar-away" style="--w:@Width(r.Away, total)"></span>
+          </div>
+        </li>
+    }
+  </ul>
+</section>

@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36930.0 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyAcademy_ApiProject", "MyAcademy_ApiProject\MyAcademy_ApiProject.csproj", "{A144A438-29CA-4C96-8AC8-640101A7DC2E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyAcademy_ApiWebUIProject", "MyAcademy_ApiWebUIProject\MyAcademy_ApiWebUIProject.csproj", "{ED118984-F36E-45CF-B245-F41B0F09F5C2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A144A438-29CA-4C96-8AC8-640101A7DC2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A144A438-29CA-4C96-8AC8-640101A7DC2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A144A438-29CA-4C96-8AC8-640101A7DC2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A144A438-29CA-4C96-8AC8-640101A7DC2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED118984-F36E-45CF-B245-F41B0F09F5C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED118984-F36E-45CF-B245-F41B0F09F5C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED118984-F36E-45CF-B245-F41B0F09F5C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED118984-F36E-45CF-B245-F41B0F09F5C2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4CDD51A2-D4EF-48A5-A73B-B142DE6D0D5F}
+	EndGlobalSection
+EndGlobal

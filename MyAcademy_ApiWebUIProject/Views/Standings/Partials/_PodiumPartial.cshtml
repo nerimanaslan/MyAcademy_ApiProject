@@ -1,0 +1,34 @@
+@model StandingsPageViewModel
+@{
+    // Kürsü: seçili haftanın ilk 3 takımı (zaman makinesiyle birlikte değişir). Sahne: scenes.js + effects.css
+    var top = Model.Standings.Where(s => s.Played > 0).Take(3).ToList();
+    if (top.Count < 3) { return; }
+    // Görsel sıra: 2. solda, 1. ortada, 3. sağda
+    var order = new[] { (top[1], 2), (top[0], 1), (top[2], 3) };
+}
+<section class="podium" data-podium aria-labelledby="podium-title">
+  <span class="podium__spot podium__spot--2" aria-hidden="true"></span>
+  <span class="podium__spot podium__spot--1" aria-hidden="true"></span>
+  <span class="podium__spot podium__spot--3" aria-hidden="true"></span>
+  <div class="podium__head">
+    <h2 class="podium__title" id="podium-title" data-shaolin-text="Ustalar Kürsüsü">Zirve</h2>
+    <span class="podium__sub">@Model.CurrentWeek. hafta sonu ilk üç</span>
+  </div>
+  <div class="podium__stage">
+    @foreach (var (team, place) in order)
+    {
+        <a class="podium__place podium__place--@place" asp-controller="Teams" asp-action="Detail" asp-route-id="@team.TeamId"
+           data-color-a="@team.ColorA" data-color-b="@team.ColorB" style="--crest-a:@team.ColorA;--crest-b:@team.ColorB"
+           aria-label="@place. sıra: @team.TeamName, @team.Points puan">
+          @if (place == 1)
+          {
+              <span class="podium__crown" aria-hidden="true">👑</span>
+          }
+          <span class="team-crest podium__crest" style="--crest-a:@team.ColorA;--crest-b:@team.ColorB" aria-hidden="true">@team.TeamCode</span>
+          <span class="podium__name">@team.TeamName</span>
+          <span class="podium__pts">@team.Points puan · @(team.GoalDifference > 0 ? "+" : "")@team.GoalDifference averaj</span>
+          <span class="podium__block" aria-hidden="true">@place</span>
+        </a>
+    }
+  </div>
+</section>

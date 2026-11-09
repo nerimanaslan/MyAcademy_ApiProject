@@ -1,0 +1,61 @@
+﻿@model MatchDetailViewModel
+<section class="panel" aria-labelledby="subs-title">
+  <div class="panel__head"><h2 class="panel__title" id="subs-title">Oyuncu değişiklikleri</h2></div>
+  <div class="split">
+    <!-- Ev Sahibi Değişiklikleri -->
+    <div class="split__col">
+      <h3 class="split__team">
+        <span class="team-crest team-crest--xs" style="--crest-a:@Model.HomeTeam.ColorA;--crest-b:@Model.HomeTeam.ColorB;">@Model.HomeTeam.Code</span>
+        @Model.HomeTeam.Name
+        <span class="split__count">@Model.HomeSubs.Count değişiklik</span>
+      </h3>
+      @if (Model.HomeSubs.Any())
+      {
+          <ul class="item-list">
+            @foreach (var s in Model.HomeSubs)
+            {
+                <li>
+                  <span class="item-minute">@(s.Minute)'</span>
+                  <span class="item-main">
+                    <strong class="sub-in">@s.PlayerIn</strong>
+                    <small class="sub-out">@s.PlayerOut</small>
+                  </span>
+                </li>
+            }
+          </ul>
+      }
+      else
+      {
+          <p class="item-empty">Değişiklik yapılmadı.</p>
+      }
+    </div>
+
+    <!-- Deplasman Değişiklikleri -->
+    <div class="split__col">
+      <h3 class="split__team">
+        <span class="team-crest team-crest--xs" style="--crest-a:@Model.AwayTeam.ColorA;--crest-b:@Model.AwayTeam.ColorB;">@Model.AwayTeam.Code</span>
+        @Model.AwayTeam.Name
+        <span class="split__count">@Model.AwaySubs.Count değişiklik</span>
+      </h3>
+      @if (Model.AwaySubs.Any())
+      {
+          <ul class="item-list">
+            @foreach (var s in Model.AwaySubs)
+            {
+                <li>
+                  <span class="item-minute">@(s.Minute)'</span>
+                  <span class="item-main">
+                    <strong class="sub-in">@s.PlayerIn</strong>
+                    <small class="sub-out">@s.PlayerOut</small>
+                  </span>
+                </li>
+            }
+          </ul>
+      }
+      else
+      {
+          <p class="item-empty">Değişiklik yapılmadı.</p>
+      }
+    </div>
+  </div>
+</section>

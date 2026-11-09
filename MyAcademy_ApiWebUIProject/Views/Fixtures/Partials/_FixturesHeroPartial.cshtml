@@ -1,0 +1,18 @@
+﻿@model FixturesPageViewModel
+<header class="fixtures-hero">
+  <div class="hero-league">
+    <span class="hero-league__name"><span class="league-mark" aria-hidden="true">SA</span>İtalya, Serie A</span>
+    <span style="font-size:0.9rem;color:var(--text-2);font-weight:600">Sezon 2026/27</span>
+  </div>
+  <div class="hero-row">
+    <div>
+      <h1 class="hero-title" data-shaolin-text="Şaolin Dövüş Takvimi">Serie A Fikstür</h1>
+      <p class="hero-subtitle">Haftayı seç, o haftanın tüm maçlarını gün gün, skor ve durum bilgisiyle gör.</p>
+    </div>
+    <dl class="hero-meta">
+      <div><dt>Takım</dt><dd>20</dd></div>
+      <div><dt>Seçili Hafta</dt><dd>@Model.SelectedWeek</dd></div>
+      <div><dt>Maç Sayısı</dt><dd>@Model.TotalMatchesThisWeek</dd></div>
+    </dl>
+  </div>
+</header>

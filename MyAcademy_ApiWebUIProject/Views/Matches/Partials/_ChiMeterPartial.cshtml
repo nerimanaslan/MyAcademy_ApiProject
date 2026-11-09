@@ -1,0 +1,39 @@
+@model MatchDetailViewModel
+@{
+    // Chi: maçtaki üstünlük = topa sahip olma %40 + isabetli şut payı %40 + korner payı %20
+    // Chi Düellosu: iki takımın küresi ekrana girince ortada, Chi oranının bölündüğü noktada çarpışır (replay.js + effects.css)
+    var s = Model.Statistic;
+    if (s == null) { return; }
+
+    double Share(int home, int away) => home + away == 0 ? 50 : home * 100.0 / (home + away);
+    var homeChi = (int)Math.Round(s.HomePossession * 0.4 + Share(s.HomeShotsOnTarget, s.AwayShotsOnTarget) * 0.4 + Share(s.HomeCorners, s.AwayCorners) * 0.2);
+    var awayChi = 100 - homeChi;
+    var leader = homeChi == awayChi ? null : (homeChi > awayChi ? Model.HomeTeam.Name : Model.AwayTeam.Name);
+    var verdict = leader == null ? "Chi dengede: iki usta birbirine denk."
+                : Math.Abs(homeChi - awayChi) >= 20 ? $"{leader} rakibini Chi ile ezdi."
+                : $"{leader} Chi akışını elinde tuttu.";
+    var winnerSide = homeChi == awayChi ? "draw" : (homeChi > awayChi ? "home" : "away");
+}
+<section class="chi-duel" data-chi-duel data-winner="@winnerSide" aria-label="Chi düellosu: @Model.HomeTeam.Name %@homeChi, @Model.AwayTeam.Name %@awayChi"
+         style="--split:@(homeChi)%;--home-a:@Model.HomeTeam.ColorA;--home-b:@Model.HomeTeam.ColorB;--away-a:@Model.AwayTeam.ColorA;--away-b:@Model.AwayTeam.ColorB;--hs:@(46 + homeChi / 2)px;--as:@(46 + awayChi / 2)px">
+  <div class="chi-duel__head">
+    <h2 class="chi-duel__title">☯ Chi Düellosu</h2>
+    <span class="chi-duel__hint">sahip olma + isabetli şut + korner</span>
+  </div>
+  <div class="chi-duel__arena" aria-hidden="true">
+    <span class="chi-duel__track"></span>
+    <span class="chi-duel__orb chi-duel__orb--home">@Model.HomeTeam.Code</span>
+    <span class="chi-duel__orb chi-duel__orb--away">@Model.AwayTeam.Code</span>
+    <span class="chi-duel__wave"></span>
+    <span class="chi-duel__clash">☯</span>
+  </div>
+  <div class="chi-duel__row">
+    <span><b>@Model.HomeTeam.Code</b> %@homeChi</span>
+    <span>%@awayChi <b>@Model.AwayTeam.Code</b></span>
+  </div>
+  <div class="chi-duel__bar" aria-hidden="true">
+    <span class="chi-duel__fill chi-duel__fill--home"></span>
+    <span class="chi-duel__fill chi-duel__fill--away"></span>
+  </div>
+  <p class="chi-duel__note">@verdict</p>
+</section>

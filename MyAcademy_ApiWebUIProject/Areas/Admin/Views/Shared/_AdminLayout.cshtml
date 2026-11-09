@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewData["Title"] | Serie A Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true">
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body class="admin">
+    <partial name="_AdminIconsPartial" />
+
+    <partial name="_AdminSidebarPartial" />
+    <div class="sidebar-backdrop" data-sidebar-close></div>
+
+    <div class="admin-main">
+        <partial name="_AdminTopbarPartial" />
+
+        <main class="admin-content">
+            <partial name="~/Views/Shared/_ApiStatusPartial.cshtml" />
+            <partial name="_AdminAlertsPartial" />
+            @RenderBody()
+        </main>
+    </div>
+
+    <script src="~/js/admin.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

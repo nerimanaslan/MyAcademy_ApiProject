@@ -1,0 +1,19 @@
+﻿@{
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString();
+    string Active(string name) => controller == name ? "is-active" : "";
+}
+<nav class="public-nav" aria-label="Ana menü">
+  <a class="public-nav__brand" asp-controller="Standings" asp-action="Index">
+    <span>SA</span><span>SERIE A</span>
+  </a>
+  <div class="public-nav__links">
+    <span class="live-badge" data-live-badge data-state="off" title="Canlı skor bağlantısı yok">CANLI</span>
+    <a class="public-nav__link @Active("Standings")" asp-controller="Standings" asp-action="Index">📊 <span data-shaolin-text="Usta Sıralaması">Puan Durumu</span></a>
+    <a class="public-nav__link @Active("Fixtures")" asp-controller="Fixtures" asp-action="Index">📅 <span data-shaolin-text="Dövüş Takvimi">Haftalık Fikstür</span></a>
+    <a class="public-nav__link @Active("Matches")" asp-controller="Matches" asp-action="Detail" asp-route-id="13">⚽ Maç Detayı</a>
+    <button type="button" class="shaolin-toggle" data-shaolin-toggle aria-pressed="false" title="Shaolin Soccer filminden esinlenen tema">🥋 Şaolin Modu</button>
+    <span class="public-nav__sep" aria-hidden="true"></span>
+    <a class="public-nav__link public-nav__link--admin" asp-area="Admin" asp-controller="Match" asp-action="Index">⚙️ Admin: Maçlar</a>
+    <a class="public-nav__link public-nav__link--teams" asp-area="Admin" asp-controller="Team" asp-action="Index">🛡️ Admin: Takımlar</a>
+  </div>
+</nav>

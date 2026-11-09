@@ -1,0 +1,34 @@
+@model StandingsPageViewModel
+@{
+    var history = Model.History;
+    // Grafik verisi sayfaya JSON olarak gömülür, rank-chart.js okur ve SVG çizer
+    var json = System.Text.Json.JsonSerializer.Serialize(new
+    {
+        weeks = history.Weeks,
+        selectedWeek = Model.CurrentWeek,
+        teams = history.Teams.Select(t => new { id = t.TeamId, name = t.TeamName, code = t.TeamCode, positions = t.Positions, points = t.Points })
+    });
+}
+<section class="table-panel rank-chart" aria-labelledby="rank-title" data-rank-chart>
+  <div class="table-toolbar">
+    <div>
+      <h2 class="table-toolbar__title" id="rank-title">Sıralama Yolculuğu</h2>
+      <p class="rank-chart__sub">Hafta hafta sıra değişimi. Grafikteki bir çizgiye ya da tablodaki bir takıma tıklayarak en fazla 3 takımı karşılaştırın.</p>
+    </div>
+    <div class="rank-chart__legend" data-rank-legend aria-live="polite"></div>
+  </div>
+
+  @if (history.Weeks.Count < 2)
+  {
+      <p class="rank-chart__empty">Grafik için en az iki haftanın tamamlanmış olması gerekiyor. Yeni haftalar oynandıkça çizgiler uzayacak.</p>
+  }
+  else
+  {
+      <div class="rank-chart__plot">
+        <svg data-rank-svg role="img" aria-labelledby="rank-title"></svg>
+        <div class="rank-chart__tooltip" data-rank-tooltip hidden></div>
+      </div>
+      <p class="rank-chart__note">Dikey eksen: lig sırası (1. sıra üstte). Grafikteki veriler aşağıdaki tabloyla aynıdır.</p>
+  }
+  <script type="application/json" data-rank-data>@Html.Raw(json)</script>
+</section>

@@ -1,0 +1,59 @@
+@model UpdateStatisticViewModel
+@{
+    ViewData["Title"] = "Maç İstatistikleri";
+    ViewData["Crumb"] = $"Yönetim / Maçlar / #{Model.MatchId} / İstatistik";
+}
+
+<div class="page-head">
+    <div>
+        <span class="page-eyebrow">Maç #@Model.MatchId</span>
+        <h1 class="page-title">@Model.HomeTeamName @Model.HomeScore - @Model.AwayScore @Model.AwayTeamName</h1>
+        <p class="page-desc">İsabetli şut, atılan golden az ve toplam şuttan fazla olamaz; topa sahip olma toplamı 100 olmalıdır.</p>
+    </div>
+</div>
+
+<form asp-action="Statistics" method="post" class="card-a form-card" novalidate>
+    <input type="hidden" asp-for="MatchId" />
+    <input type="hidden" asp-for="HomeTeamName" />
+    <input type="hidden" asp-for="AwayTeamName" />
+    <input type="hidden" asp-for="HomeScore" />
+    <input type="hidden" asp-for="AwayScore" />
+
+    <div class="card-body-a">
+        <div asp-validation-summary="All" class="form-alert is-visible" role="alert"></div>
+
+        <div class="stat-form">
+            <span class="field-label">İstatistik</span>
+            <span class="field-label">@Model.HomeTeamName (Ev)</span>
+            <span class="field-label">@Model.AwayTeamName (Dep.)</span>
+
+            <label class="field-label" asp-for="HomePossession">Topa sahip olma (%)</label>
+            <input class="input-a" asp-for="HomePossession" min="0" max="100">
+            <input class="input-a" asp-for="AwayPossession" min="0" max="100">
+
+            <label class="field-label" asp-for="HomeShots">Toplam şut</label>
+            <input class="input-a" asp-for="HomeShots" min="0">
+            <input class="input-a" asp-for="AwayShots" min="0">
+
+            <label class="field-label" asp-for="HomeShotsOnTarget">İsabetli şut</label>
+            <input class="input-a" asp-for="HomeShotsOnTarget" min="0">
+            <input class="input-a" asp-for="AwayShotsOnTarget" min="0">
+
+            <label class="field-label" asp-for="HomeCorners">Korner</label>
+            <input class="input-a" asp-for="HomeCorners" min="0">
+            <input class="input-a" asp-for="AwayCorners" min="0">
+
+            <label class="field-label" asp-for="HomeFouls">Faul</label>
+            <input class="input-a" asp-for="HomeFouls" min="0">
+            <input class="input-a" asp-for="AwayFouls" min="0">
+
+            <label class="field-label" asp-for="HomeOffsides">Ofsayt</label>
+            <input class="input-a" asp-for="HomeOffsides" min="0">
+            <input class="input-a" asp-for="AwayOffsides" min="0">
+        </div>
+    </div>
+    <div class="form-actions">
+        <a asp-action="Index" class="btn-a btn-a--secondary">Vazgeç</a>
+        <button type="submit" class="btn-a btn-a--primary">Kaydet</button>
+    </div>
+</form>

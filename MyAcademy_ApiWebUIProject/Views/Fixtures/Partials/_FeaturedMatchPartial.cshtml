@@ -1,0 +1,50 @@
+﻿@model MatchViewModel
+@{
+    var statusName = Model.Status switch {
+        "Finished" => "Tamamlandı",
+        "Live" => "Canlı",
+        "NotStarted" => "Başlamadı",
+        "Postponed" => "Ertelendi",
+        _ => Model.Status
+    };
+}
+<section class="panel featured">
+  <div class="panel__head">
+    <h2 class="panel__title" data-shaolin-text="Haftanın Düellosu">Öne Çıkan Karşılaşma</h2>
+    <span class="panel__sub">Haftanın Maçı</span>
+  </div>
+  <div class="featured__body">
+    <div class="featured__teams">
+      <div class="featured__team">
+        <span class="team-crest team-crest--lg" style="--crest-a:@Model.HomeColorA;--crest-b:@Model.HomeColorB;">@Model.HomeTeamCode</span>
+        <span>@Model.HomeTeamName</span>
+      </div>
+      <div>
+        @if (Model.Status == "Finished" || Model.Status == "Live")
+        {
+            <span class="featured__score">@Model.HomeScore - @Model.AwayScore</span>
+        }
+        else
+        {
+            <span class="featured__score featured__score--vs">VS</span>
+        }
+        <div style="margin-top:6px;"><span class="status status--@Model.Status">@statusName</span></div>
+      </div>
+      <div class="featured__team">
+        <span class="team-crest team-crest--lg" style="--crest-a:@Model.AwayColorA;--crest-b:@Model.AwayColorB;">@Model.AwayTeamCode</span>
+        <span>@Model.AwayTeamName</span>
+      </div>
+    </div>
+    <ul class="featured__info">
+      <li><span>Stadyum:</span> @Model.Stadium</li>
+      <li><span>Tarih:</span> @Model.MatchDate.ToString("dd.MM.yyyy HH:mm")</li>
+      @if (!string.IsNullOrEmpty(Model.Referee))
+      {
+          <li><span>Hakem:</span> @Model.Referee</li>
+      }
+    </ul>
+    <div class="featured__foot">
+      <a href="/Matches/Detail/@Model.Id" class="fx-link" style="font-size:0.95rem;">Maç Detayını İncele &rarr;</a>
+    </div>
+  </div>
+</section>

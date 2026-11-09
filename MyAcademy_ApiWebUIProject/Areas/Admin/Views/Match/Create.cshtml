@@ -1,0 +1,23 @@
+@model CreateMatchViewModel
+@{
+    ViewData["Title"] = "Yeni Maç Ekle";
+    ViewData["Crumb"] = "Yönetim / Maçlar / Yeni";
+}
+
+<div class="page-head">
+    <div>
+        <span class="page-eyebrow">Serie A 2026/27</span>
+        <h1 class="page-title">Yeni Maç Ekle</h1>
+        <p class="page-desc">Aynı takım bir haftada yalnızca bir maç oynayabilir.</p>
+    </div>
+</div>
+
+<form asp-action="Create" method="post" class="card-a form-card" novalidate>
+    <div class="card-body-a">
+        <partial name="Partials/_MatchFormPartial" model="Model" />
+    </div>
+    <div class="form-actions">
+        <a asp-action="Index" class="btn-a btn-a--secondary">Vazgeç</a>
+        <button type="submit" class="btn-a btn-a--primary">Kaydet</button>
+    </div>
+</form>

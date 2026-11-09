@@ -1,0 +1,24 @@
+@model UpdateMatchViewModel
+@{
+    ViewData["Title"] = "Maçı Düzenle";
+    ViewData["Crumb"] = $"Yönetim / Maçlar / #{Model.Id}";
+}
+
+<div class="page-head">
+    <div>
+        <span class="page-eyebrow">Maç #@Model.Id</span>
+        <h1 class="page-title">Maçı Düzenle</h1>
+        <p class="page-desc">Skoru girip durumu Tamamlandı yaptığınızda puan durumu otomatik güncellenir.</p>
+    </div>
+</div>
+
+<form asp-action="Update" method="post" class="card-a form-card" novalidate>
+    <input type="hidden" asp-for="Id" />
+    <div class="card-body-a">
+        <partial name="Partials/_MatchFormPartial" model="Model" />
+    </div>
+    <div class="form-actions">
+        <a asp-action="Index" class="btn-a btn-a--secondary">Vazgeç</a>
+        <button type="submit" class="btn-a btn-a--primary">Güncelle</button>
+    </div>
+</form>

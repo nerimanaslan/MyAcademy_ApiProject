@@ -1,0 +1,38 @@
+@model TeamDetailViewModel
+@* Maç kartları fikstür sayfasındaki _FixtureCardPartial ile aynı *@
+<section class="panel" aria-labelledby="club-matches-title">
+  <div class="panel__head">
+    <h2 class="panel__title" id="club-matches-title">Maçlar</h2>
+    <span class="panel__sub">@Model.Matches.Count maç</span>
+  </div>
+  <div class="fixtures-list">
+    @if (Model.UpcomingMatches.Any())
+    {
+        <div class="day-group">
+          <div class="day-head"><h3 class="day-head__date">Sıradaki maçlar</h3><span class="day-head__count">@Model.UpcomingMatches.Count maç</span></div>
+          <ul class="day-list">
+            @foreach (var m in Model.UpcomingMatches)
+            {
+                <partial name="~/Views/Fixtures/Partials/_FixtureCardPartial.cshtml" model="m" />
+            }
+          </ul>
+        </div>
+    }
+    @if (Model.PlayedMatches.Any())
+    {
+        <div class="day-group">
+          <div class="day-head"><h3 class="day-head__date">Oynanan maçlar</h3><span class="day-head__count">@Model.PlayedMatches.Count maç</span></div>
+          <ul class="day-list">
+            @foreach (var m in Model.PlayedMatches)
+            {
+                <partial name="~/Views/Fixtures/Partials/_FixtureCardPartial.cshtml" model="m" />
+            }
+          </ul>
+        </div>
+    }
+    @if (!Model.Matches.Any())
+    {
+        <p class="page-note">Bu takımın kayıtlı maçı yok.</p>
+    }
+  </div>
+</section>

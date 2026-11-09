@@ -1,0 +1,56 @@
+﻿@model StandingsPageViewModel
+@{
+    var maxPoints = Model.Standings.Any() ? Math.Max(Model.Standings.Max(t => t.Points), 1) : 30;
+}
+<header class="standings-hero">
+  <div class="hero-top">
+    <div>
+      <div class="hero-league"><span class="league-mark" aria-hidden="true">SA</span>İtalya, Serie A</div>
+      <h1 class="hero-title" data-shaolin-text="Şaolin Usta Sıralaması">Serie A Puan Durumu</h1>
+      <p class="hero-subtitle">Tamamlanan maçlardan dinamik hesaplanan resmi lig sıralaması ve form durumu.</p>
+    </div>
+    <dl class="hero-meta">
+      <div><dt>Sezon</dt><dd>2026/27</dd></div>
+      <div><dt>Hafta</dt><dd>@Model.CurrentWeek</dd></div>
+      <div><dt>Takım Sayısı</dt><dd>@Model.Standings.Count</dd></div>
+    </dl>
+  </div>
+
+  <partial name="Partials/_WeekPickerPartial" model="Model" />
+
+  <section class="points-ladder" aria-labelledby="ladder-title">
+    <div class="ladder-head">
+      <h2 class="ladder-title" id="ladder-title">Puan Dağılımı</h2>
+      <p class="ladder-hint">Tabloda görmek için bir takım armasına dokunun</p>
+    </div>
+    <div class="ladder-scroll">
+      <div class="ladder-track">
+        <span class="ladder-axis" aria-hidden="true"></span>
+        <span class="ladder-tick" style="--x:10%">5</span>
+        <span class="ladder-tick" style="--x:30%">10</span>
+        <span class="ladder-tick" style="--x:50%">15</span>
+        <span class="ladder-tick" style="--x:70%">20</span>
+        <span class="ladder-tick" style="--x:90%">25</span>
+        @{
+            int idx = 0;
+            var groupedByPoints = Model.Standings.GroupBy(s => s.Points).ToDictionary(g => g.Key, g => g.ToList());
+        }
+        @foreach (var t in Model.Standings)
+        {
+            var percent = Math.Clamp((double)t.Points / (maxPoints + 2) * 100, 3, 97);
+            var samePointList = groupedByPoints[t.Points];
+            var stackIndex = samePointList.IndexOf(t);
+            var zoneClass = t.Zone == "ucl" ? "zone-ucl" : (t.Zone == "uel" || t.Zone == "conf" ? "zone-europe" : (t.Zone == "rel" ? "zone-rel" : ""));
+            <button type="button" class="ladder-marker @zoneClass"
+                    style="--x:@percent.ToString("F1", System.Globalization.CultureInfo.InvariantCulture)%;--stack:@stackIndex;--i:@idx"
+                    data-ladder-team="@t.TeamId"
+                    aria-label="@t.TeamName, @t.Position. sıra, @t.Points puan"
+                    title="@t.TeamName: @t.Points puan">
+              <span class="team-crest team-crest--sm" style="--crest-a:@t.ColorA;--crest-b:@t.ColorB;" aria-hidden="true">@t.TeamCode</span>
+            </button>
+            idx++;
+        }
+      </div>
+    </div>
+  </section>
+</header>

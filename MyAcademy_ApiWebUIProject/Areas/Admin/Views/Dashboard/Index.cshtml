@@ -1,0 +1,27 @@
+@model AdminDashboardViewModel
+@{
+    ViewData["Title"] = "Genel Bakış";
+    ViewData["Crumb"] = "Yönetim / Ana Sayfa";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/admin-dashboard.css" asp-append-version="true">
+}
+
+<div class="page-head">
+    <div>
+        <span class="page-eyebrow">Serie A 2026/27</span>
+        <h1 class="page-title">Genel Bakış</h1>
+        <p class="page-desc">Serie A lig verileri, maç durumları ve yönetim araçları.</p>
+    </div>
+    <a asp-controller="Match" asp-action="Create" class="btn-a btn-a--primary">
+        <svg class="icon" aria-hidden="true"><use href="#i-plus"/></svg>Yeni Maç Ekle
+    </a>
+</div>
+
+<partial name="Partials/_DashboardStatsPartial" model="Model" />
+
+<div class="content-grid">
+    <partial name="Partials/_RecentMatchesPartial" model="Model" />
+    <partial name="Partials/_TopTeamsPartial" model="Model" />
+</div>

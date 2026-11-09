@@ -1,0 +1,30 @@
+﻿@model FixturesPageViewModel
+@{
+    var homeWins = Model.Matches.Count(x => x.Status == "Finished" && (x.HomeScore ?? 0) > (x.AwayScore ?? 0));
+    var awayWins = Model.Matches.Count(x => x.Status == "Finished" && (x.AwayScore ?? 0) > (x.HomeScore ?? 0));
+    var draws = Model.Matches.Count(x => x.Status == "Finished" && (x.HomeScore ?? 0) == (x.AwayScore ?? 0));
+}
+<section class="panel">
+  <div class="panel__head">
+    <h2 class="panel__title">Haftanın Özeti</h2>
+    <span class="panel__sub">@Model.SelectedWeek. Hafta</span>
+  </div>
+  <dl class="summary-list">
+    <div><dt>Toplam Maç</dt><dd>@Model.TotalMatchesThisWeek</dd></div>
+    <div><dt>Tamamlanan</dt><dd>@Model.FinishedMatchesCount</dd></div>
+    <div><dt>Atılan Gol</dt><dd>@Model.GoalsThisWeek</dd></div>
+  </dl>
+  <div class="result-split">
+    <span class="result-split__title">Sonuç Dağılımı</span>
+    <div class="result-split__bar">
+      <span class="r-home" style="flex:@(homeWins > 0 ? homeWins : 1)" title="Ev sahibi: @homeWins"></span>
+      <span class="r-draw" style="flex:@(draws > 0 ? draws : 1)" title="Beraberlik: @draws"></span>
+      <span class="r-away" style="flex:@(awayWins > 0 ? awayWins : 1)" title="Deplasman: @awayWins"></span>
+    </div>
+    <div class="result-split__legend">
+      <span><i style="background:var(--blue)"></i> Ev Sahibi (@homeWins)</span>
+      <span><i style="background:var(--dim)"></i> Beraberlik (@draws)</span>
+      <span><i style="background:var(--ice)"></i> Deplasman (@awayWins)</span>
+    </div>
+  </div>
+</section>

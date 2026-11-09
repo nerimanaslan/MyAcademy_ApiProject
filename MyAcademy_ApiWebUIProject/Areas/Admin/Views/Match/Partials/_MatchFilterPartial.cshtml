@@ -1,0 +1,44 @@
+@{
+    var selectedWeek = ViewBag.week as int?;
+    var selectedStatus = ViewBag.status as string;
+    var statuses = new Dictionary<string, string>
+    {
+        ["NotStarted"] = "Başlamadı",
+        ["Live"] = "Canlı",
+        ["Finished"] = "Tamamlandı",
+        ["Postponed"] = "Ertelendi"
+    };
+}
+<form class="filter-bar" method="get" asp-action="Index" role="search">
+  <div class="filter-search">
+    <label class="field-label" for="f-team">Takım Ara</label>
+    <div class="input-icon">
+      <svg class="icon" aria-hidden="true"><use href="#i-search"/></svg>
+      <input class="input-a" id="f-team" name="team" type="search" value="@ViewBag.team" placeholder="Takım adı yazın" autocomplete="off">
+    </div>
+  </div>
+  <div>
+    <label class="field-label" for="f-week">Hafta Seç</label>
+    <select class="select-a" id="f-week" name="week">
+      <option value="">Tüm Haftalar</option>
+      @foreach (var w in new[] { 11, 12, 13 })
+      {
+          <option value="@w" selected="@(selectedWeek == w)">@w. Hafta</option>
+      }
+    </select>
+  </div>
+  <div>
+    <label class="field-label" for="f-status">Durum</label>
+    <select class="select-a" id="f-status" name="status">
+      <option value="">Tümü</option>
+      @foreach (var s in statuses)
+      {
+          <option value="@s.Key" selected="@(selectedStatus == s.Key)">@s.Value</option>
+      }
+    </select>
+  </div>
+  <div class="filter-actions">
+    <a asp-action="Index" class="btn-a btn-a--ghost">Temizle</a>
+    <button type="submit" class="btn-a btn-a--secondary">Filtrele</button>
+  </div>
+</form>

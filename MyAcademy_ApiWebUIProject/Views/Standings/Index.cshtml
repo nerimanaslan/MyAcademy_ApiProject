@@ -1,0 +1,40 @@
+﻿@model StandingsPageViewModel
+@{
+    ViewData["Title"] = "Puan Durumu";
+    ViewData["BodyClass"] = "standings-page";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/standings.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/ninja-intro.css" asp-append-version="true">
+}
+
+@section BodyTop {
+    <script src="~/js/ninja-intro.js" asp-append-version="true"></script>
+}
+
+<main class="standings-shell container-xl" data-standings>
+    <partial name="Partials/_StandingsHeroPartial" model="Model" />
+
+    <partial name="Partials/_PodiumPartial" model="Model" />
+
+    <partial name="Partials/_StandingsSummaryPartial" model="Model" />
+
+    <div class="standings-body">
+        <div class="row g-4">
+            <div class="col-xl-9">
+                <partial name="Partials/_RankChartPartial" model="Model" />
+                <partial name="Partials/_StandingsTablePartial" model="Model" />
+            </div>
+
+            <div class="col-xl-3">
+                <partial name="Partials/_StandingsSidebarPartial" />
+            </div>
+        </div>
+    </div>
+</main>
+
+@section Scripts {
+    <script src="~/js/standings.js" asp-append-version="true"></script>
+    <script src="~/js/rank-chart.js" asp-append-version="true"></script>
+}

@@ -1,0 +1,8 @@
+@* API'ye ulaşılamadığında (ApiAvailabilityHandler işareti) sayfanın en üstünde uyarı *@
+@if (Context.Items.ContainsKey(MyAcademy_ApiWebUIProject.Services.ApiAvailabilityHandler.ApiDownKey))
+{
+    <div role="alert" style="position:sticky;top:0;z-index:1000;display:flex;align-items:center;justify-content:center;gap:10px;padding:10px 16px;background:#B42336;color:#fff;font-family:'Barlow',system-ui,sans-serif;font-size:.92rem;font-weight:600;text-align:center;">
+        <span aria-hidden="true">⚠</span>
+        <span>API'ye ulaşılamıyor, veriler gösterilemiyor. Önce <strong>MyAcademy_ApiProject</strong> projesini başlatıp sayfayı yenileyin.</span>
+    </div>
+}

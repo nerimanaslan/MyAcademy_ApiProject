@@ -1,0 +1,26 @@
+@model List<TeamViewModel>
+@{
+    var tr = new System.Globalization.CultureInfo("tr-TR");
+    var active = Model.Where(t => t.Status == "active").ToList();
+    var capacity = active.GroupBy(t => t.Stadium).Sum(g => g.First().Capacity); // aynı stadı paylaşanlar bir kez sayılır
+    var cities = active.Select(t => t.City).Distinct().Count();
+    var oldest = active.OrderBy(t => t.Founded).FirstOrDefault();
+}
+<section class="league-strip" aria-label="Lig özeti">
+  <div class="strip-item strip-item--green">
+    <span class="strip-icon"><svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg></span>
+    <div><span class="strip-label">Aktif takım</span><span class="strip-value">@active.Count <small>/ 20</small></span></div>
+  </div>
+  <div class="strip-item strip-item--blue">
+    <span class="strip-icon"><svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg></span>
+    <div><span class="strip-label">Temsil edilen şehir</span><span class="strip-value">@cities</span></div>
+  </div>
+  <div class="strip-item strip-item--navy">
+    <span class="strip-icon"><svg class="icon" aria-hidden="true"><use href="#i-stadium"/></svg></span>
+    <div><span class="strip-label">Toplam stadyum kapasitesi</span><span class="strip-value">@capacity.ToString("N0", tr)</span></div>
+  </div>
+  <div class="strip-item strip-item--red">
+    <span class="strip-icon"><svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg></span>
+    <div><span class="strip-label">En köklü kulüp</span><span class="strip-value">@(oldest?.Name ?? "-") <small>@oldest?.Founded</small></span></div>
+  </div>
+</section>

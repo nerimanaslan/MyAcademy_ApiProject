@@ -1,0 +1,26 @@
+﻿@model FixturesPageViewModel
+<section class="panel week-info">
+  <div>
+    <h2 class="week-info__title">@Model.SelectedWeek. Hafta</h2>
+    <p class="week-info__range">@Model.WeekDateRange</p>
+  </div>
+  <div>
+    <ul class="week-facts">
+      <li><strong>@Model.TotalMatchesThisWeek</strong> Maç</li>
+      <li><strong>@Model.FinishedMatchesCount</strong> Tamamlandı</li>
+      <li><strong>@Model.GoalsThisWeek</strong> Gol</li>
+    </ul>
+  </div>
+  <div class="week-progress">
+    <div class="week-progress__head">
+      <span>Haftalık İlerleme</span>
+      <strong>@Model.FinishedMatchesCount / @Model.TotalMatchesThisWeek Maç</strong>
+    </div>
+    <div class="week-progress__bar">
+      @foreach (var m in Model.Matches)
+      {
+          <span class="seg seg--@m.Status" title="@m.HomeTeamName - @m.AwayTeamName: @m.Status"></span>
+      }
+    </div>
+  </div>
+</section>

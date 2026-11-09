@@ -1,0 +1,27 @@
+@model UpdateTeamViewModel
+@{
+    ViewData["Title"] = "Takımı Düzenle";
+    ViewData["Crumb"] = $"Yönetim / Takımlar / {Model.Name}";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/admin-teams.css" asp-append-version="true">
+}
+
+<div class="page-head">
+    <div>
+        <span class="page-eyebrow">Takım #@Model.Id</span>
+        <h1 class="page-title">@Model.Name</h1>
+    </div>
+</div>
+
+<form asp-action="Update" method="post" class="card-a form-card" novalidate>
+    <input type="hidden" asp-for="Id" />
+    <div class="card-body-a">
+        <partial name="Partials/_TeamFormPartial" model="Model" />
+    </div>
+    <div class="form-actions">
+        <a asp-action="Index" class="btn-a btn-a--secondary">Vazgeç</a>
+        <button type="submit" class="btn-a btn-a--primary">Güncelle</button>
+    </div>
+</form>

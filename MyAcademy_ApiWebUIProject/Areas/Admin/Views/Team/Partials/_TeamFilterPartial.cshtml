@@ -1,0 +1,35 @@
+@{
+    var selectedRegion = ViewBag.region as string;
+    var selectedStatus = ViewBag.status as string;
+}
+<form class="filter-bar" method="get" asp-action="Index" role="search">
+  <div class="filter-search">
+    <label class="field-label" for="f-q">Takım Ara</label>
+    <div class="input-icon">
+      <svg class="icon" aria-hidden="true"><use href="#i-search"/></svg>
+      <input class="input-a" id="f-q" name="q" type="search" value="@ViewBag.q" placeholder="Takım, şehir veya stadyum" autocomplete="off">
+    </div>
+  </div>
+  <div>
+    <label class="field-label" for="f-region">Bölge</label>
+    <select class="select-a" id="f-region" name="region">
+      <option value="">Tüm Bölgeler</option>
+      @foreach (var r in AdminTeamsPageViewModel.Regions)
+      {
+          <option value="@r.Key" selected="@(selectedRegion == r.Key)">@r.Value</option>
+      }
+    </select>
+  </div>
+  <div>
+    <label class="field-label" for="f-status">Durum</label>
+    <select class="select-a" id="f-status" name="status">
+      <option value="">Tümü</option>
+      <option value="active" selected="@(selectedStatus == "active")">Aktif (Serie A)</option>
+      <option value="inactive" selected="@(selectedStatus == "inactive")">Pasif</option>
+    </select>
+  </div>
+  <div class="filter-actions">
+    <a asp-action="Index" class="btn-a btn-a--ghost">Temizle</a>
+    <button type="submit" class="btn-a btn-a--secondary">Filtrele</button>
+  </div>
+</form>

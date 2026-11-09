@@ -1,0 +1,44 @@
+@model TeamDetailViewModel
+@{
+    var s = Model.Standing;
+}
+<section class="panel" aria-labelledby="club-season-title">
+  <div class="panel__head">
+    <h2 class="panel__title" id="club-season-title">Sezon</h2>
+    <span class="panel__sub">Tamamlanan maçlardan</span>
+  </div>
+  @if (s == null)
+  {
+      <p class="summary-note" style="padding-top:16px">Takım puan durumunda yer almıyor (pasif takım).</p>
+  }
+  else
+  {
+      <dl class="club-stats">
+        <div><dt>Oynanan</dt><dd>@s.Played</dd></div>
+        <div class="is-win"><dt>Galibiyet</dt><dd>@s.Won</dd></div>
+        <div><dt>Beraberlik</dt><dd>@s.Drawn</dd></div>
+        <div class="is-loss"><dt>Mağlubiyet</dt><dd>@s.Lost</dd></div>
+        <div><dt>Atılan gol</dt><dd>@s.GoalsFor</dd></div>
+        <div><dt>Yenilen gol</dt><dd>@s.GoalsAgainst</dd></div>
+      </dl>
+      <div class="club-form">
+        <span class="result-split__title">Son maçlar</span>
+        <ol class="club-form__list" aria-label="Son maçlar">
+          @if (!s.Form.Any())
+          {
+              <li class="club-form__empty">Henüz maç oynanmadı</li>
+          }
+          @foreach (var f in s.Form)
+          {
+              var (cls, text, title) = f.ToUpper() switch
+              {
+                  "W" => ("w", "G", "Galibiyet"),
+                  "D" => ("d", "B", "Beraberlik"),
+                  _ => ("l", "M", "Mağlubiyet")
+              };
+              <li><span class="club-form__badge club-form__badge--@cls" title="@title">@text</span></li>
+          }
+        </ol>
+      </div>
+  }
+</section>

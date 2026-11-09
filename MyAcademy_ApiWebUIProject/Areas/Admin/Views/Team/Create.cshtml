@@ -1,0 +1,26 @@
+@model CreateTeamViewModel
+@{
+    ViewData["Title"] = "Yeni Takım Ekle";
+    ViewData["Crumb"] = "Yönetim / Takımlar / Yeni";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/admin-teams.css" asp-append-version="true">
+}
+
+<div class="page-head">
+    <div>
+        <span class="page-eyebrow">Serie A 2026/27</span>
+        <h1 class="page-title">Yeni Takım Ekle</h1>
+    </div>
+</div>
+
+<form asp-action="Create" method="post" class="card-a form-card" novalidate>
+    <div class="card-body-a">
+        <partial name="Partials/_TeamFormPartial" model="Model" />
+    </div>
+    <div class="form-actions">
+        <a asp-action="Index" class="btn-a btn-a--secondary">Vazgeç</a>
+        <button type="submit" class="btn-a btn-a--primary">Kaydet</button>
+    </div>
+</form>

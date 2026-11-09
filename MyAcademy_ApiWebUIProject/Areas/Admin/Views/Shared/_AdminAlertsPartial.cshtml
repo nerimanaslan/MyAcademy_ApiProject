@@ -1,0 +1,9 @@
+@* İşlem sonrası (RedirectToAction) TempData ile gelen mesajlar *@
+@if (TempData["Success"] is string success)
+{
+    <div class="alert-a alert-a--success" role="status">@success</div>
+}
+@if (TempData["Error"] is string error)
+{
+    <div class="alert-a alert-a--error" role="alert">@error</div>
+}

@@ -1,0 +1,28 @@
+﻿@model AdminDashboardViewModel
+<div class="card-a">
+  <div class="card-header-a">
+    <h2>Son Maçlar</h2>
+    <a asp-area="Admin" asp-controller="Match" asp-action="Index" class="btn-a btn-a--primary" style="height:30px;font-size:0.78rem;">Tüm Maçlar</a>
+  </div>
+  <div class="card-body-a">
+    @if (Model.RecentMatches.Any())
+    {
+        @foreach (var m in Model.RecentMatches)
+        {
+            <div class="match-item">
+              <div>
+                <div class="match-teams">@m.HomeTeamName vs @m.AwayTeamName</div>
+                <div style="font-size:0.78rem;color:var(--dim)">@m.Week. Hafta &bull; @m.Stadium</div>
+              </div>
+              <div class="match-score">
+                @(m.Status == "Finished" || m.Status == "Live" ? $"{m.HomeScore} - {m.AwayScore}" : m.StatusName)
+              </div>
+            </div>
+        }
+    }
+    else
+    {
+        <p style="color:var(--muted)">Henüz maç kaydı bulunmamaktadır.</p>
+    }
+  </div>
+</div>

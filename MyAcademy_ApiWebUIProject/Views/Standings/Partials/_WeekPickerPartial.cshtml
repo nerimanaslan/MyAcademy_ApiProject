@@ -1,0 +1,27 @@
+@model StandingsPageViewModel
+@* Zaman makinesi: puan durumunu oynanmış herhangi bir haftanın sonuna göre gösterir *@
+@if (Model.PlayedWeeks.Count > 1)
+{
+    <nav class="week-machine" aria-label="Hafta seçimi">
+      <span class="week-machine__label">Hafta sonu tablosu</span>
+      <div class="week-machine__list">
+        @foreach (var w in Model.PlayedWeeks)
+        {
+            var isLatest = w == Model.LatestWeek;
+            var isActive = w == Model.CurrentWeek;
+            <a class="week-machine__btn @(isActive ? "is-active" : "")"
+               asp-controller="Standings" asp-action="Index" asp-route-week="@(isLatest ? null : w)"
+               aria-current="@(isActive ? "page" : null)">
+              @w. Hafta@(isLatest ? " · güncel" : "")
+            </a>
+        }
+      </div>
+    </nav>
+}
+@if (!Model.IsLatest)
+{
+    <p class="week-machine__notice" role="status">
+      ⏪ <strong>@Model.CurrentWeek. hafta sonundaki</strong> puan durumunu görüyorsunuz. Sıra değişimleri bir önceki haftaya göredir.
+      <a asp-controller="Standings" asp-action="Index">Güncel tabloya dön &rarr;</a>
+    </p>
+}

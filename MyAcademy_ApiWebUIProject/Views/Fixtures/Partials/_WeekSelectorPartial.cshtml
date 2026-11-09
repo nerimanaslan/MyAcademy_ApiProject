@@ -1,0 +1,30 @@
+﻿@model FixturesPageViewModel
+<nav class="week-nav" aria-label="Hafta seçici">
+  <a href="/Fixtures?week=@(Math.Max(11, Model.SelectedWeek - 1))" class="week-arrow" aria-label="Önceki hafta">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 6l-6 6 6 6"/></svg>
+  </a>
+  <ul class="week-list">
+    @foreach (var w in Model.AvailableWeeks)
+    {
+        var isCur = w == Model.SelectedWeek;
+        var wRange = w switch {
+            11 => "31 Eki - 2 Kas",
+            12 => "7 Kas - 9 Kas",
+            13 => "14 Kas - 16 Kas",
+            _ => $"{w}. Hafta"
+        };
+        <li>
+          <a href="/Fixtures?week=@w" class="week-btn @(isCur ? "is-active" : "")">
+            <div class="week-btn__top">
+              <span class="week-btn__title">@w. Hafta</span>
+              <span class="week-tag @(isCur ? "week-tag--active" : "week-tag--current")">@(isCur ? "Seçili" : "Fikstür")</span>
+            </div>
+            <span class="week-btn__range">@wRange</span>
+          </a>
+        </li>
+    }
+  </ul>
+  <a href="/Fixtures?week=@(Math.Min(13, Model.SelectedWeek + 1))" class="week-arrow" aria-label="Sonraki hafta">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 6l6 6-6 6"/></svg>
+  </a>
+</nav>

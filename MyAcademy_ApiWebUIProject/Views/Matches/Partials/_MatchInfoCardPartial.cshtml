@@ -1,0 +1,15 @@
+﻿@model MatchDetailViewModel
+<section class="panel" aria-labelledby="info-title">
+  <div class="panel__head"><h2 class="panel__title" id="info-title">Maç bilgileri</h2></div>
+  <dl class="info-list">
+    <div><dt>Lig</dt><dd>Serie A</dd></div>
+    <div><dt>Sezon</dt><dd>2026/27</dd></div>
+    <div><dt>Hafta</dt><dd>@Model.Week</dd></div>
+    <div><dt>Stadyum</dt><dd>@(string.IsNullOrEmpty(Model.Stadium) ? Model.HomeTeam.Stadium : Model.Stadium)</dd></div>
+    <div><dt>Şehir</dt><dd>@(string.IsNullOrEmpty(Model.HomeTeam.City) ? "İtalya" : Model.HomeTeam.City)</dd></div>
+    <div><dt>Hakem</dt><dd>@(string.IsNullOrEmpty(Model.Referee) ? "-" : Model.Referee)</dd></div>
+    <div><dt>Seyirci</dt><dd>@(Model.Attendance.HasValue ? Model.Attendance.Value.ToString("N0", new System.Globalization.CultureInfo("tr-TR")) : "-")</dd></div>
+    <div><dt>Tarih</dt><dd>@Model.MatchDate.ToString("dd MMMM yyyy", new System.Globalization.CultureInfo("tr-TR"))</dd></div>
+    <div><dt>Saat</dt><dd>@Model.MatchDate.ToString("HH:mm")</dd></div>
+  </dl>
+</section>

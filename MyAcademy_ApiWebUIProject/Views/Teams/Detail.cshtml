@@ -1,0 +1,28 @@
+@model TeamDetailViewModel
+@{
+    ViewData["Title"] = $"{Model.Team.Name} | Kulüp";
+    ViewData["BodyClass"] = "fixtures-page";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/fixtures.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/team.css" asp-append-version="true">
+}
+
+<main class="fixtures-shell container-xl" style="--club-a:@Model.Team.ColorA;--club-b:@Model.Team.ColorB">
+    <partial name="Partials/_TeamHeroPartial" model="Model" />
+
+    <div class="fixtures-body">
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <partial name="Partials/_TeamMatchesPartial" model="Model" />
+            </div>
+            <aside class="col-lg-4">
+                <div class="side-stack">
+                    <partial name="Partials/_TeamSeasonPartial" model="Model" />
+                    <partial name="Partials/_TeamScorersPartial" model="Model" />
+                </div>
+            </aside>
+        </div>
+    </div>
+</main>

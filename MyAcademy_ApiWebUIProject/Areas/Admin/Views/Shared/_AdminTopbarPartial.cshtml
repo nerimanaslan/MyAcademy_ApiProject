@@ -1,0 +1,16 @@
+<header class="admin-topbar">
+  <div class="topbar-left">
+    <button type="button" class="icon-btn menu-toggle" data-sidebar-toggle aria-controls="admin-sidebar" aria-expanded="false" aria-label="Menüyü aç">
+      <svg class="icon" aria-hidden="true"><use href="#i-menu"/></svg>
+    </button>
+    <p class="topbar-title">@ViewData["Title"]</p>
+    <span class="topbar-crumb">@ViewData["Crumb"]</span>
+  </div>
+  <div class="topbar-right">
+    <a asp-area="" asp-controller="Standings" asp-action="Index" class="btn-a btn-a--secondary" style="height:32px;font-size:0.8rem;">Puan Tablosu</a>
+    <div class="topbar-user">
+      <span class="avatar"><svg class="icon" aria-hidden="true"><use href="#i-user"/></svg></span>
+      <span class="topbar-user__text"><span class="topbar-user__name">Yönetici</span><span class="topbar-user__role">Tam yetkili</span></span>
+    </div>
+  </div>
+</header>

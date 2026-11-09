@@ -1,0 +1,63 @@
+﻿@model MatchDetailViewModel
+<section class="panel" aria-labelledby="cards-title">
+  <div class="panel__head"><h2 class="panel__title" id="cards-title">Kartlar</h2></div>
+  <div class="split">
+    <!-- Ev Sahibi Kartları -->
+    <div class="split__col">
+      <h3 class="split__team">
+        <span class="team-crest team-crest--xs" style="--crest-a:@Model.HomeTeam.ColorA;--crest-b:@Model.HomeTeam.ColorB;">@Model.HomeTeam.Code</span>
+        @Model.HomeTeam.Name
+        <span class="split__count">@Model.HomeCards.Count kart</span>
+      </h3>
+      @if (Model.HomeCards.Any())
+      {
+          <ul class="item-list">
+            @foreach (var c in Model.HomeCards)
+            {
+                <li>
+                  <span class="item-minute">@(c.Minute)'</span>
+                  <span class="item-main"><strong>@c.PlayerName</strong></span>
+                  <span class="card-tag">
+                    <span class="i-card @(c.CardType == "Red" ? "i-card--red" : "i-card--yellow")"></span>
+                    @(c.CardType == "Red" ? "Kırmızı" : "Sarı")
+                  </span>
+                </li>
+            }
+          </ul>
+      }
+      else
+      {
+          <p class="item-empty">Kart görmedi.</p>
+      }
+    </div>
+
+    <!-- Deplasman Kartları -->
+    <div class="split__col">
+      <h3 class="split__team">
+        <span class="team-crest team-crest--xs" style="--crest-a:@Model.AwayTeam.ColorA;--crest-b:@Model.AwayTeam.ColorB;">@Model.AwayTeam.Code</span>
+        @Model.AwayTeam.Name
+        <span class="split__count">@Model.AwayCards.Count kart</span>
+      </h3>
+      @if (Model.AwayCards.Any())
+      {
+          <ul class="item-list">
+            @foreach (var c in Model.AwayCards)
+            {
+                <li>
+                  <span class="item-minute">@(c.Minute)'</span>
+                  <span class="item-main"><strong>@c.PlayerName</strong></span>
+                  <span class="card-tag">
+                    <span class="i-card @(c.CardType == "Red" ? "i-card--red" : "i-card--yellow")"></span>
+                    @(c.CardType == "Red" ? "Kırmızı" : "Sarı")
+                  </span>
+                </li>
+            }
+          </ul>
+      }
+      else
+      {
+          <p class="item-empty">Kart görmedi.</p>
+      }
+    </div>
+  </div>
+</section>

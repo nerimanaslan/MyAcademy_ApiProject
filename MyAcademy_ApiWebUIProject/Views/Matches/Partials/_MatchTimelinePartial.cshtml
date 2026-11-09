@@ -1,0 +1,104 @@
+﻿@model MatchDetailViewModel
+<section class="panel" aria-labelledby="timeline-title">
+  <div class="panel__head">
+    <h2 class="panel__title" id="timeline-title">Maç olayları</h2>
+    <div class="event-filter" role="group" aria-label="Olay türüne göre filtrele">
+      <button type="button" class="chip" data-event-filter="all" aria-pressed="true">Tümü</button>
+      <button type="button" class="chip" data-event-filter="goal" aria-pressed="false">Goller</button>
+      <button type="button" class="chip" data-event-filter="card" aria-pressed="false">Kartlar</button>
+      <button type="button" class="chip" data-event-filter="sub" aria-pressed="false">Değişiklikler</button>
+    </div>
+  </div>
+
+  <div class="timeline-legend" aria-hidden="true">
+    <span>
+      <span class="team-crest team-crest--xs" style="--crest-a:@Model.HomeTeam.ColorA;--crest-b:@Model.HomeTeam.ColorB;">@Model.HomeTeam.Code</span>
+      @Model.HomeTeam.Name
+    </span>
+    <span></span>
+    <span>
+      @Model.AwayTeam.Name
+      <span class="team-crest team-crest--xs" style="--crest-a:@Model.AwayTeam.ColorA;--crest-b:@Model.AwayTeam.ColorB;">@Model.AwayTeam.Code</span>
+    </span>
+  </div>
+
+  <ol class="timeline">
+    <li class="event event--period"><span class="period-mark">Başlama düdüğü</span></li>
+
+    @{
+        var renderedHalf = false;
+        foreach (var ev in Model.Timeline)
+        {
+            if (!renderedHalf && (int)ev.Minute > 45)
+            {
+                renderedHalf = true;
+                <li class="event event--period">
+                  <span class="period-mark">Devre arası <strong>@Model.FirstHalfHomeGoals-@Model.FirstHalfAwayGoals</strong></span>
+                </li>
+            }
+
+            var sideClass = ev.IsHome ? "event--home" : "event--away";
+            var evClass = ev.Type == "goal" ? "event--goal" :
+                          ev.Type == "card" && ev.CardType == "Red" ? "event--red" :
+                          ev.Type == "card" ? "event--yellow" : "event--sub";
+
+            var mv = ev.Move;   // yalnızca gollerde dolu; null öznitelikler Razor tarafından yazılmaz
+            @* ağır çekim tekrarı (replay.js) data-goal-* bilgilerini okur *@
+            <li class="event @sideClass @evClass" id="@ev.Id" data-type="@ev.Type"
+                data-goal-seed="@(mv != null ? ev.GoalId : null)" data-goal-side="@(mv != null ? (ev.IsHome ? "home" : "away") : null)"
+                data-goal-minute="@(mv != null ? ev.Minute : null)" data-goal-player="@(mv != null ? ev.Player : null)"
+                data-goal-assist="@(mv != null ? ev.Assist : null)" data-goal-move="@mv?.Name" data-goal-icon="@mv?.Icon"
+                data-goal-color="@mv?.Color" data-goal-desc="@mv?.Description">
+              <span class="event__minute">@(ev.Minute)'</span>
+              <div class="event-card">
+                <span class="event-card__icon">
+                  @if (ev.Type == "goal")
+                  {
+                      <svg class="i-ball" aria-hidden="true"><use href="#i-ball"/></svg>
+                  }
+                  else if (ev.Type == "card")
+                  {
+                      <span class="i-card @(ev.CardType == "Red" ? "i-card--red" : "i-card--yellow")"></span>
+                  }
+                  else
+                  {
+                      <svg width="18" height="18" aria-hidden="true"><use href="#i-swap"/></svg>
+                  }
+                </span>
+                <div class="event-card__body">
+                  @if (ev.Type == "sub")
+                  {
+                      <span class="event-card__player sub-in">@ev.PlayerIn</span>
+                      <span class="event-card__meta sub-out">@ev.PlayerOut</span>
+                  }
+                  else
+                  {
+                      <span class="event-card__player">@ev.Player</span>
+                      <span class="event-card__meta">@ev.Meta</span>
+                      @if (ev.Move != null)
+                      {
+                          <span class="kf-move" style="--kf:@ev.Move.Color" title="@ev.Move.Description">@ev.Move.Icon @ev.Move.Name</span>
+                          <button type="button" class="replay-btn" data-replay="@ev.Id">▶ Ağır çekim</button>
+                      }
+                  }
+                </div>
+              </div>
+            </li>
+        }
+
+        if (!renderedHalf && Model.Status == "Finished")
+        {
+            <li class="event event--period">
+              <span class="period-mark">Devre arası <strong>@Model.FirstHalfHomeGoals-@Model.FirstHalfAwayGoals</strong></span>
+            </li>
+        }
+    }
+
+    @if (Model.Status == "Finished")
+    {
+        <li class="event event--period">
+          <span class="period-mark">Maç sonu <strong>@(Model.HomeScore ?? 0)-@(Model.AwayScore ?? 0)</strong></span>
+        </li>
+    }
+  </ol>
+</section>

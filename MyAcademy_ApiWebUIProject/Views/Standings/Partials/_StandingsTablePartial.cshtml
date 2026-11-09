@@ -1,0 +1,106 @@
+﻿@model StandingsPageViewModel
+<section class="table-panel" aria-labelledby="table-title">
+  <div class="table-toolbar">
+    <h2 class="table-toolbar__title" id="table-title">Genel Sıralama</h2>
+    <div class="table-toolbar__controls">
+      <div class="zone-filter" role="group" aria-label="Bölgeye göre filtrele">
+        <button type="button" class="zone-chip zone-chip--all" data-zone-filter="all" aria-pressed="true">Tümü</button>
+        <button type="button" class="zone-chip zone-chip--ucl" data-zone-filter="ucl" aria-pressed="false">Şampiyonlar Ligi</button>
+        <button type="button" class="zone-chip zone-chip--europe" data-zone-filter="europe" aria-pressed="false">Avrupa</button>
+        <button type="button" class="zone-chip zone-chip--rel" data-zone-filter="rel" aria-pressed="false">Düşme Hattı</button>
+      </div>
+      <label class="team-search">
+        <span class="visually-hidden">Takım ara</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4-4"/></svg>
+        <input type="search" placeholder="Takım ara" autocomplete="off" data-team-search>
+      </label>
+    </div>
+  </div>
+
+  <div class="standings-table-wrap">
+    <table class="standings-table">
+      <thead>
+        <tr>
+          <th scope="col" class="col-pos">#</th>
+          <th scope="col" class="col-move"><abbr title="Önceki haftaya göre sıra değişimi">±</abbr></th>
+          <th scope="col" class="col-team">Takım</th>
+          <th scope="col" class="col-num"><abbr title="Oynanan maç">O</abbr></th>
+          <th scope="col" class="col-num"><abbr title="Galibiyet">G</abbr></th>
+          <th scope="col" class="col-num"><abbr title="Beraberlik">B</abbr></th>
+          <th scope="col" class="col-num"><abbr title="Mağlubiyet">M</abbr></th>
+          <th scope="col" class="col-num col-hide-sm"><abbr title="Atılan gol">AG</abbr></th>
+          <th scope="col" class="col-num col-hide-sm"><abbr title="Yenilen gol">YG</abbr></th>
+          <th scope="col" class="col-gd"><abbr title="Averaj">AV</abbr></th>
+          <th scope="col" class="col-pts">Puan</th>
+          <th scope="col" class="col-form">Son 5 Maç</th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach (var t in Model.Standings)
+        {
+            var zoneClass = t.Zone == "ucl" ? "zone-ucl" : (t.Zone == "uel" || t.Zone == "conf" ? "zone-europe" : (t.Zone == "rel" ? "zone-rel" : ""));
+            var edgeClass = t.Position == 4 ? "edge-ucl" : (t.Position == 6 ? "edge-europe" : (t.Position == 17 ? "edge-rel" : ""));
+            var filterZone = t.Zone == "ucl" ? "ucl" : (t.Zone == "uel" || t.Zone == "conf" ? "europe" : (t.Zone == "rel" ? "rel" : "mid"));
+            <tr class="standings-row @zoneClass @edgeClass" data-team="@t.TeamId" data-team-name="@t.TeamName" data-zone="@filterZone" tabindex="0">
+              <td class="col-pos">@t.Position</td>
+              <td class="col-move">
+                @if (t.PositionChange > 0)
+                {
+                    <span class="move move--up" title="@t.PositionChange sıra yükseldi">▲@t.PositionChange</span>
+                }
+                else if (t.PositionChange < 0)
+                {
+                    <span class="move move--down" title="@(-t.PositionChange) sıra düştü">▼@(-t.PositionChange)</span>
+                }
+                else
+                {
+                    <span class="move move--same" title="@(t.PositionChange == null ? "Önceki hafta yok" : "Sıra değişmedi")">–</span>
+                }
+              </td>
+              <th scope="row" class="col-team">
+                <div class="team-cell">
+                  <span class="team-crest" style="--crest-a:@t.ColorA;--crest-b:@t.ColorB;" aria-hidden="true">@t.TeamCode</span>
+                  <a class="team-name team-link" asp-controller="Teams" asp-action="Detail" asp-route-id="@t.TeamId">@t.TeamName</a>
+                </div>
+              </th>
+              <td class="col-num">@t.Played</td>
+              <td class="col-num">@t.Won</td>
+              <td class="col-num">@t.Drawn</td>
+              <td class="col-num">@t.Lost</td>
+              <td class="col-num col-hide-sm">@t.GoalsFor</td>
+              <td class="col-num col-hide-sm">@t.GoalsAgainst</td>
+              <td class="col-gd">
+                <span class="gd @(t.GoalDifference > 0 ? "is-pos" : (t.GoalDifference < 0 ? "is-neg" : "is-zero"))">
+                  @(t.GoalDifference > 0 ? $"+{t.GoalDifference}" : t.GoalDifference.ToString())
+                </span>
+              </td>
+              <td class="col-pts">@t.Points</td>
+              <td class="col-form">
+                <ol class="form-list" aria-label="Son maçlar">
+                  @if (t.Form.Any())
+                  {
+                      @foreach (var f in t.Form)
+                      {
+                          var fClass = f.ToUpper() == "W" ? "form-badge--w" : (f.ToUpper() == "D" ? "form-badge--d" : "form-badge--l");
+                          var fText = f.ToUpper() == "W" ? "G" : (f.ToUpper() == "D" ? "B" : "M");
+                          var fTitle = f.ToUpper() == "W" ? "Galibiyet" : (f.ToUpper() == "D" ? "Beraberlik" : "Mağlubiyet");
+                          <li><span class="form-badge @fClass" title="@fTitle">@fText</span></li>
+                      }
+                  }
+                  else
+                  {
+                      <span style="font-size:0.75rem;color:var(--dim)">-</span>
+                  }
+                </ol>
+              </td>
+            </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="table-foot">
+    <span>Toplam <strong data-visible-count>@Model.Standings.Count</strong> takım listeleniyor</span>
+    <span>Dinamik Puan Hesaplama &bull; Sezon 2026/27</span>
+  </div>
+</section>

@@ -1,0 +1,77 @@
+/* Serie A - herkese açık sayfaların ortak parçaları
+   1 Üst menü   2 Canlı bağlantı rozeti   3 Gol bandı   4 İçerik güncellenince parlama */
+
+/* 1. Üst menü (_PublicNav) */
+.public-nav {
+  position: sticky; top: 0; z-index: 999;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  padding: 10px 24px;
+  background: #050c18; border-bottom: 1px solid #1a2c4e;
+  font-family: "Barlow", system-ui, sans-serif; font-size: .9rem;
+}
+.public-nav__brand { display: flex; align-items: center; gap: 8px; color: #fff; font-weight: 700; font-size: 1.1rem; letter-spacing: .02em; text-decoration: none; }
+.public-nav__brand span:first-child { padding: 2px 8px; border-radius: 6px; background: #1E5BD8; font-size: .85rem; font-weight: 800; }
+.public-nav__links { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.public-nav__link {
+  display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 6px;
+  color: #C9D4EA; font-weight: 600; text-decoration: none; transition: background-color .15s ease, color .15s ease;
+}
+.public-nav__link:hover, .public-nav__link.is-active { background: #13284F; color: #fff; }
+.public-nav__sep { width: 1px; height: 18px; margin: 0 4px; background: #243656; }
+.public-nav__link--admin { border: 1px solid rgba(30, 91, 216, .4); background: rgba(30, 91, 216, .18); color: #8FB4FF; }
+.public-nav__link--teams { border: 1px solid rgba(0, 146, 70, .4); background: rgba(0, 146, 70, .18); color: #7FE4A6; }
+.shaolin-toggle {
+  display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; cursor: pointer;
+  border: 1px solid rgba(242, 181, 59, .45); background: rgba(242, 181, 59, .1); color: #F6D07A;
+  font: inherit; font-weight: 700;
+}
+.shaolin-toggle[aria-pressed="true"] { background: linear-gradient(135deg, #C81E1E, #E8A317); border-color: #FFD36B; color: #fff; box-shadow: 0 0 14px rgba(232, 163, 23, .55); }
+
+/* 2. Canlı bağlantı rozeti */
+.live-badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; color: #8B9CC0; font-size: .78rem; font-weight: 700; letter-spacing: .04em; }
+.live-badge::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #6A7DA3; }
+.live-badge[data-state="on"] { color: #7FE8BF; }
+.live-badge[data-state="on"]::before { background: #1FC98A; box-shadow: 0 0 8px #1FC98A; animation: live-dot 1.6s ease-in-out infinite; }
+.live-badge[data-state="wait"]::before { background: #F2B53B; }
+@keyframes live-dot { 50% { opacity: .35; } }
+
+/* 3. Gol bandı (Şaolin modu kapalıyken) */
+.goal-banner {
+  position: fixed; left: 50%; top: 84px; z-index: 2000;
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  min-width: min(420px, calc(100vw - 32px)); padding: 16px 28px 14px;
+  border-radius: 16px; color: #fff; text-align: center;
+  background: linear-gradient(135deg, var(--team-a), color-mix(in srgb, var(--team-a) 55%, #000));
+  box-shadow: 0 0 0 3px var(--team-b), 0 20px 50px rgba(0, 0, 0, .5);
+  font-family: "Barlow Condensed", "Arial Narrow", sans-serif;
+  transform: translateX(-50%);
+  animation: goal-in .5s cubic-bezier(.2, 1.4, .4, 1) both, goal-out .4s ease-in 3.2s forwards;
+}
+.goal-banner strong { font-size: 3rem; line-height: 1; letter-spacing: .06em; text-shadow: 0 3px 0 rgba(0, 0, 0, .35); }
+.goal-banner span { font-size: 1.4rem; font-weight: 700; }
+.goal-banner small { font-family: "Barlow", sans-serif; font-size: .9rem; opacity: .9; }
+@keyframes goal-in { from { opacity: 0; transform: translate(-50%, -30px) scale(.7); } to { opacity: 1; transform: translate(-50%, 0) scale(1); } }
+@keyframes goal-out { to { opacity: 0; transform: translate(-50%, -20px) scale(.95); } }
+
+/* 4. Canlı güncellemeden sonra kısa parlama */
+main.live-flash { animation: live-flash 1.2s ease-out; }
+@keyframes live-flash { from { filter: brightness(1.25); } to { filter: none; } }
+
+/* Takım adından kulüp sayfasına link */
+a.team-link { color: inherit; text-decoration: none; }
+a.team-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+/* 5. Derbi rozeti (fikstür kartı + maç detayı) */
+.derby-tag {
+  display: inline-flex; align-items: center; gap: 4px; padding: 2px 9px; border-radius: 999px;
+  border: 1px solid rgba(255, 106, 0, .55) !important; background: rgba(255, 106, 0, .15) !important;
+  color: #FFB27A !important; font-size: .74rem; font-weight: 700; white-space: nowrap;
+}
+
+@media (max-width: 767.98px) {
+  .public-nav { padding: 8px 12px; }
+  .public-nav__link { padding: 5px 8px; font-size: .82rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .goal-banner, main.live-flash, .live-badge::before { animation: none !important; }
+}

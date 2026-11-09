@@ -1,0 +1,100 @@
+﻿@model MatchDetailViewModel
+<header class="match-hero">
+  <div class="hero-topbar">
+    <ul class="comp-tags" aria-label="Müsabaka">
+      <li class="comp-tag comp-tag--league">Serie A</li>
+      <li class="comp-tag">2026/27</li>
+      <li class="comp-tag">Hafta @Model.Week</li>
+    @if (Model.DerbyName != null)
+    {
+        <li class="comp-tag derby-tag">🔥 @Model.DerbyName</li>
+    }
+    </ul>
+    @if (Model.Status == "Finished")
+    {
+        <span class="status-pill">Maç bitti</span>
+    }
+    else if (Model.Status == "Live")
+    {
+        <span class="status-pill status-pill--live">Canlı</span>
+    }
+    else if (Model.Status == "Postponed")
+    {
+        <span class="status-pill status-pill--notstarted">Ertelendi</span>
+    }
+    else
+    {
+        <span class="status-pill status-pill--notstarted">Başlamadı</span>
+    }
+  </div>
+
+  <div class="scoreboard">
+    <!-- Ev Sahibi -->
+    <div class="sb-team sb-team--home @(Model.HomeIsLoser ? "is-loser" : "")">
+      <span class="team-crest team-crest--xl" style="--crest-a:@Model.HomeTeam.ColorA;--crest-b:@Model.HomeTeam.ColorB;" aria-hidden="true">
+        @Model.HomeTeam.Code
+      </span>
+      <div>
+        <span class="sb-team__role">Ev sahibi</span>
+        <h1 class="sb-team__name"><a class="team-link" asp-controller="Teams" asp-action="Detail" asp-route-id="@Model.HomeTeam.Id">@Model.HomeTeam.Name</a></h1>
+        <ul class="sb-scorers" aria-label="@Model.HomeTeam.Name golleri">
+          @foreach (var g in Model.HomeGoals)
+          {
+              <li>
+                <svg class="i-ball" aria-hidden="true"><use href="#i-ball"/></svg>
+                @g.PlayerName @(g.Minute)'@(g.IsPenalty ? " (P)" : "")@(g.IsOwnGoal ? " (K.K.)" : "") <span class="kf-mini" title="@g.Move.Name">@g.Move.Icon</span>
+              </li>
+          }
+        </ul>
+      </div>
+    </div>
+
+    <!-- Skor -->
+    <div class="sb-score">
+      <p class="sb-score__value" aria-label="Skor: @Model.HomeTeam.Name @(Model.HomeScore?.ToString() ?? "-"), @Model.AwayTeam.Name @(Model.AwayScore?.ToString() ?? "-")">
+        <span class="@(Model.HomeIsLoser ? "is-loser" : "")">@(Model.HomeScore?.ToString() ?? "-")</span>
+        <span class="sb-score__sep" aria-hidden="true"></span>
+        <span class="@(Model.AwayIsLoser ? "is-loser" : "")">@(Model.AwayScore?.ToString() ?? "-")</span>
+      </p>
+      <p class="sb-score__ht">
+        @if (Model.Status == "Finished")
+        {
+            <span>İlk yarı @Model.FirstHalfHomeGoals-@Model.FirstHalfAwayGoals</span>
+        }
+        else
+        {
+            <span>@Model.MatchDate.ToString("dd MMMM yyyy HH:mm")</span>
+        }
+      </p>
+    </div>
+
+    <!-- Deplasman -->
+    <div class="sb-team sb-team--away @(Model.AwayIsLoser ? "is-loser" : "")">
+      <span class="team-crest team-crest--xl" style="--crest-a:@Model.AwayTeam.ColorA;--crest-b:@Model.AwayTeam.ColorB;" aria-hidden="true">
+        @Model.AwayTeam.Code
+      </span>
+      <div>
+        <span class="sb-team__role">Deplasman</span>
+        <h2 class="sb-team__name"><a class="team-link" asp-controller="Teams" asp-action="Detail" asp-route-id="@Model.AwayTeam.Id">@Model.AwayTeam.Name</a></h2>
+        <ul class="sb-scorers" aria-label="@Model.AwayTeam.Name golleri">
+          @foreach (var g in Model.AwayGoals)
+          {
+              <li>
+                <svg class="i-ball" aria-hidden="true"><use href="#i-ball"/></svg>
+                @g.PlayerName @(g.Minute)'@(g.IsPenalty ? " (P)" : "")@(g.IsOwnGoal ? " (K.K.)" : "") <span class="kf-mini" title="@g.Move.Name">@g.Move.Icon</span>
+              </li>
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <ul class="hero-facts">
+    <li><svg aria-hidden="true"><use href="#i-calendar"/></svg>@Model.MatchDate.ToString("dd MMMM yyyy", new System.Globalization.CultureInfo("tr-TR"))</li>
+    <li><svg aria-hidden="true"><use href="#i-clock"/></svg>@Model.MatchDate.ToString("HH:mm")</li>
+    <li><svg aria-hidden="true"><use href="#i-stadium"/></svg>@(string.IsNullOrEmpty(Model.Stadium) ? Model.HomeTeam.Stadium : Model.Stadium)</li>
+    <li><svg aria-hidden="true"><use href="#i-whistle"/></svg><span>Hakem:</span> @(string.IsNullOrEmpty(Model.Referee) ? "Daniele Orsato" : Model.Referee)</li>
+  </ul>
+
+<partial name="Partials/_MatchFlowStripPartial" model="Model" />
+</header>

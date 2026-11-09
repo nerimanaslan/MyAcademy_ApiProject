@@ -1,0 +1,71 @@
+﻿@model MatchDetailViewModel
+<section class="panel" aria-labelledby="goals-title">
+  <div class="panel__head"><h2 class="panel__title" id="goals-title">Goller</h2></div>
+  <div class="split">
+    <!-- Ev Sahibi Golleri -->
+    <div class="split__col">
+      <h3 class="split__team">
+        <span class="team-crest team-crest--xs" style="--crest-a:@Model.HomeTeam.ColorA;--crest-b:@Model.HomeTeam.ColorB;">@Model.HomeTeam.Code</span>
+        @Model.HomeTeam.Name
+        <span class="split__count">@Model.HomeGoals.Count gol</span>
+      </h3>
+      @if (Model.HomeGoals.Any())
+      {
+          <ul class="item-list goal-list">
+            @foreach (var g in Model.HomeGoals)
+            {
+                <li>
+                  <span class="item-minute">@(g.Minute)'</span>
+                  <span class="item-main">
+                    <strong>@g.PlayerName @(g.IsPenalty ? " (Penaltı)" : "")@(g.IsOwnGoal ? " (Kendi Kalesine)" : "")</strong>
+                    @if (!string.IsNullOrEmpty(g.AssistPlayerName))
+                    {
+                        <small>Asist: @g.AssistPlayerName</small>
+                    }
+                    <span class="kf-move" style="--kf:@g.Move.Color" title="@g.Move.Description">@g.Move.Icon @g.Move.Name</span>
+                  </span>
+                  <button type="button" class="replay-btn replay-btn--icon" data-replay="ev-goal-@g.Id" title="Ağır çekim tekrar" aria-label="@g.PlayerName golünü ağır çekimde izle">▶</button>
+                </li>
+            }
+          </ul>
+      }
+      else
+      {
+          <p class="item-empty">Bu maçta gol kaydetmedi.</p>
+      }
+    </div>
+
+    <!-- Deplasman Golleri -->
+    <div class="split__col">
+      <h3 class="split__team">
+        <span class="team-crest team-crest--xs" style="--crest-a:@Model.AwayTeam.ColorA;--crest-b:@Model.AwayTeam.ColorB;">@Model.AwayTeam.Code</span>
+        @Model.AwayTeam.Name
+        <span class="split__count">@Model.AwayGoals.Count gol</span>
+      </h3>
+      @if (Model.AwayGoals.Any())
+      {
+          <ul class="item-list goal-list">
+            @foreach (var g in Model.AwayGoals)
+            {
+                <li>
+                  <span class="item-minute">@(g.Minute)'</span>
+                  <span class="item-main">
+                    <strong>@g.PlayerName @(g.IsPenalty ? " (Penaltı)" : "")@(g.IsOwnGoal ? " (Kendi Kalesine)" : "")</strong>
+                    @if (!string.IsNullOrEmpty(g.AssistPlayerName))
+                    {
+                        <small>Asist: @g.AssistPlayerName</small>
+                    }
+                    <span class="kf-move" style="--kf:@g.Move.Color" title="@g.Move.Description">@g.Move.Icon @g.Move.Name</span>
+                  </span>
+                  <button type="button" class="replay-btn replay-btn--icon" data-replay="ev-goal-@g.Id" title="Ağır çekim tekrar" aria-label="@g.PlayerName golünü ağır çekimde izle">▶</button>
+                </li>
+            }
+          </ul>
+      }
+      else
+      {
+          <p class="item-empty">Bu maçta gol kaydetmedi.</p>
+      }
+    </div>
+  </div>
+</section>

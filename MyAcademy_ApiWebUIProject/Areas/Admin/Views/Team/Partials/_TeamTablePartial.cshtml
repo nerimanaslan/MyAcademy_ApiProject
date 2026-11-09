@@ -1,0 +1,57 @@
+@model AdminTeamsPageViewModel
+@{
+    var tr = new System.Globalization.CultureInfo("tr-TR");
+}
+<div class="table-scroll">
+  <table class="team-table">
+    <caption class="visually-hidden">Serie A takım listesi</caption>
+    <thead>
+      <tr>
+        <th scope="col" class="col-id">ID</th>
+        <th scope="col">Takım</th>
+        <th scope="col">Şehir / Bölge</th>
+        <th scope="col">Stadyum</th>
+        <th scope="col" class="col-num">Kapasite</th>
+        <th scope="col" class="col-num">Kuruluş</th>
+        <th scope="col">Renkler</th>
+        <th scope="col">Durum</th>
+        <th scope="col" class="col-actions">İşlemler</th>
+      </tr>
+    </thead>
+    <tbody>
+      @if (!Model.Teams.Any())
+      {
+          <tr class="table-empty"><td colspan="9"><strong>Takım bulunamadı</strong>Filtreleri değiştirin ya da Temizle ile tüm takımları gösterin.</td></tr>
+      }
+      @foreach (var t in Model.Teams)
+      {
+          <tr class="@(t.Status == "inactive" ? "is-inactive" : "")">
+            <td class="col-id">@t.Id</td>
+            <td>
+              <div class="team-cell">
+                <span class="team-crest" style="--crest-a:@t.ColorA;--crest-b:@t.ColorB" aria-hidden="true">@t.Code</span>
+                <div><span class="team-name">@t.Name</span><span class="team-code">@t.Code</span></div>
+              </div>
+            </td>
+            <td class="city-cell">@t.City<small><span class="region region--@t.Region">@(AdminTeamsPageViewModel.Regions.GetValueOrDefault(t.Region, t.Region))</span></small></td>
+            <td>@t.Stadium</td>
+            <td class="col-num">@t.Capacity.ToString("N0", tr)</td>
+            <td class="col-num">@t.Founded</td>
+            <td><span class="swatches" title="@t.ColorA / @t.ColorB"><span class="swatch" style="--c:@t.ColorA"></span><span class="swatch" style="--c:@t.ColorB"></span></span></td>
+            <td><span class="badge-a badge-a--@t.Status">@(t.Status == "active" ? "Aktif" : "Pasif")</span></td>
+            <td class="col-actions">
+              <div class="row-actions">
+                <a class="act-btn" asp-action="Update" asp-route-id="@t.Id" title="Düzenle" aria-label="Düzenle: @t.Name"><svg class="icon" aria-hidden="true"><use href="#i-edit"/></svg></a>
+                <a class="act-btn act-btn--danger" asp-action="Delete" asp-route-id="@t.Id" title="Sil" aria-label="Sil: @t.Name"
+                   data-confirm="@t.Name silinecek. Maç geçmişi varsa silinmez, pasife alınır. Devam edilsin mi?"><svg class="icon" aria-hidden="true"><use href="#i-trash"/></svg></a>
+              </div>
+            </td>
+          </tr>
+      }
+    </tbody>
+  </table>
+</div>
+<div class="table-foot">
+  <span>@Model.AllTeams.Count takımdan @Model.Teams.Count tanesi gösteriliyor</span>
+  <span>Serie A'da 20 aktif takım bulunur</span>
+</div>

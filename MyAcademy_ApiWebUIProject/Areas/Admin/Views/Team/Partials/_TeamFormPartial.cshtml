@@ -1,0 +1,74 @@
+@model CreateTeamViewModel
+@{
+    var regions = AdminTeamsPageViewModel.Regions.Select(r => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem(r.Value, r.Key));
+    var statuses = new List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>
+    {
+        new("Aktif (Serie A'da oynuyor)", "active"),
+        new("Pasif", "inactive")
+    };
+}
+<div asp-validation-summary="ModelOnly" class="form-alert is-visible" role="alert"></div>
+
+<div class="crest-preview" aria-live="polite">
+  <span class="team-crest team-crest--lg" data-preview-crest aria-hidden="true">---</span>
+  <div>
+    <span class="crest-preview__name" data-preview-name>Takım adı</span>
+    <span class="crest-preview__meta">Arma önizleme</span>
+  </div>
+</div>
+
+<div class="form-grid">
+  <div class="form-field">
+    <label class="field-label" asp-for="Name">Takım Adı <span class="req">*</span></label>
+    <input class="input-a" asp-for="Name" maxlength="40" placeholder="Örn. Sampdoria" autocomplete="off" data-name-input>
+    <span asp-validation-for="Name"></span>
+  </div>
+  <div class="form-field">
+    <label class="field-label" asp-for="Code">Kısa Ad <span class="req">*</span></label>
+    <input class="input-a code-input" asp-for="Code" maxlength="3" placeholder="SAM" autocomplete="off" data-code-input>
+    <p class="field-hint">Tabloda ve armada görünen 3 harfli kod</p>
+    <span asp-validation-for="Code"></span>
+  </div>
+  <div class="form-field">
+    <label class="field-label" asp-for="City">Şehir <span class="req">*</span></label>
+    <input class="input-a" asp-for="City" placeholder="Örn. Genova" autocomplete="off">
+    <span asp-validation-for="City"></span>
+  </div>
+  <div class="form-field">
+    <label class="field-label" asp-for="Region">Bölge <span class="req">*</span></label>
+    <select class="select-a" asp-for="Region" asp-items="regions"></select>
+  </div>
+  <div class="form-field span-2">
+    <label class="field-label" asp-for="Stadium">Stadyum <span class="req">*</span></label>
+    <input class="input-a" asp-for="Stadium" placeholder="Örn. Stadio Luigi Ferraris" autocomplete="off">
+    <span asp-validation-for="Stadium"></span>
+  </div>
+  <div class="form-field">
+    <label class="field-label" asp-for="Capacity">Stadyum Kapasitesi <span class="req">*</span></label>
+    <input class="input-a" asp-for="Capacity" type="number" min="1000" max="100000" inputmode="numeric">
+    <span asp-validation-for="Capacity"></span>
+  </div>
+  <div class="form-field">
+    <label class="field-label" asp-for="Founded">Kuruluş Yılı <span class="req">*</span></label>
+    <input class="input-a" asp-for="Founded" type="number" min="1850" max="2026" inputmode="numeric">
+    <span asp-validation-for="Founded"></span>
+  </div>
+  <div class="form-field span-2">
+    <span class="field-label">Kulüp Renkleri <span class="req">*</span></span>
+    <div class="color-row">
+      <label class="color-input">
+        <input type="color" asp-for="ColorA" data-color-input="a" aria-label="Ana renk">
+        <span>Ana renk <code data-color-a>@Model.ColorA</code></span>
+      </label>
+      <label class="color-input">
+        <input type="color" asp-for="ColorB" data-color-input="b" aria-label="İkinci renk">
+        <span>İkinci renk <code data-color-b>@Model.ColorB</code></span>
+      </label>
+    </div>
+  </div>
+  <div class="form-field span-2">
+    <label class="field-label" asp-for="Status">Durum</label>
+    <select class="select-a" asp-for="Status" asp-items="statuses"></select>
+    <p class="field-hint">Puan durumunda yalnızca aktif takımlar listelenir.</p>
+  </div>
+</div>

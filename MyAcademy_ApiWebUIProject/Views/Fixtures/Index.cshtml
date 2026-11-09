@@ -1,0 +1,36 @@
+﻿@model FixturesPageViewModel
+@{
+    ViewData["Title"] = $"Fikstür - {Model.SelectedWeek}. Hafta";
+    ViewData["BodyClass"] = "fixtures-page";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/fixtures.css" asp-append-version="true">
+}
+
+<main class="fixtures-shell container-xl">
+    <partial name="Partials/_FixturesHeroPartial" model="Model" />
+
+    <partial name="Partials/_WeekSelectorPartial" model="Model" />
+
+    <partial name="Partials/_WeekInfoPartial" model="Model" />
+
+    <div class="fixtures-body">
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <partial name="Partials/_FixturesListPartial" model="Model" />
+            </div>
+
+            <aside class="col-lg-4">
+                <div class="side-stack">
+                    <partial name="Partials/_WeeklySummaryPartial" model="Model" />
+
+                    @if (Model.FeaturedMatch != null)
+                    {
+                        <partial name="Partials/_FeaturedMatchPartial" model="Model.FeaturedMatch" />
+                    }
+                </div>
+            </aside>
+        </div>
+    </div>
+</main>

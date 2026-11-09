@@ -1,0 +1,32 @@
+﻿@model AdminDashboardViewModel
+<div class="card-a">
+  <div class="card-header-a">
+    <h2>Liderlik Tablosu (İlk 5)</h2>
+    <a asp-area="" asp-controller="Standings" asp-action="Index" class="btn-a btn-a--secondary" style="height:30px;font-size:0.78rem;">Tamamı</a>
+  </div>
+  <div class="card-body-a">
+    <table class="table-sm-custom">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Takım</th>
+          <th>O</th>
+          <th>Av</th>
+          <th>P</th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach (var t in Model.TopTeams)
+        {
+            <tr>
+              <td style="font-weight:700">@t.Position</td>
+              <td style="font-weight:600">@t.TeamName</td>
+              <td>@t.Played</td>
+              <td>@t.GoalDifference</td>
+              <td style="font-weight:700;color:var(--blue)">@t.Points</td>
+            </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

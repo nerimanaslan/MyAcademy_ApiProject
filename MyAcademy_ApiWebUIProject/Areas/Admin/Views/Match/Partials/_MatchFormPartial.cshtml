@@ -1,0 +1,65 @@
+@model CreateMatchViewModel
+@{
+    var teams = ViewBag.teams as List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> ?? new();
+    var weeks = Enumerable.Range(1, 38).Select(w => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem($"{w}. Hafta", w.ToString()));
+    var statuses = new List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>
+    {
+        new("Başlamadı", "NotStarted"),
+        new("Canlı", "Live"),
+        new("Tamamlandı", "Finished"),
+        new("Ertelendi", "Postponed")
+    };
+}
+<div asp-validation-summary="ModelOnly" class="form-alert is-visible" role="alert"></div>
+
+<div class="form-grid">
+  <div class="form-field">
+    <label class="field-label" asp-for="Week">Hafta <span class="req">*</span></label>
+    <select class="select-a" asp-for="Week" asp-items="weeks"><option value="">Hafta seçin</option></select>
+    <span asp-validation-for="Week"></span>
+  </div>
+  <div class="form-field">
+    <label class="field-label" asp-for="Status">Maç Durumu</label>
+    <select class="select-a" asp-for="Status" asp-items="statuses" data-status-select></select>
+  </div>
+  <div class="form-field">
+    <label class="field-label" asp-for="HomeTeamId">Ev Sahibi Takım <span class="req">*</span></label>
+    <select class="select-a" asp-for="HomeTeamId" asp-items="teams"><option value="">Takım seçin</option></select>
+    <span asp-validation-for="HomeTeamId"></span>
+  </div>
+  <div class="form-field">
+    <label class="field-label" asp-for="AwayTeamId">Deplasman Takımı <span class="req">*</span></label>
+    <select class="select-a" asp-for="AwayTeamId" asp-items="teams"><option value="">Takım seçin</option></select>
+    <span asp-validation-for="AwayTeamId"></span>
+  </div>
+  <div class="form-field">
+    <label class="field-label" asp-for="MatchDate">Maç Tarihi ve Saati <span class="req">*</span></label>
+    <input class="input-a" asp-for="MatchDate" type="datetime-local">
+    <span asp-validation-for="MatchDate"></span>
+  </div>
+  <div class="form-field">
+    <label class="field-label" asp-for="Stadium">Stadyum</label>
+    <input class="input-a" asp-for="Stadium" placeholder="Boş bırakılırsa ev sahibinin stadyumu">
+  </div>
+  <div class="score-fields span-2" data-score-fields>
+    <div class="form-field">
+      <label class="field-label" asp-for="HomeScore">Ev sahibi skoru <span class="req">*</span></label>
+      <input class="input-a" asp-for="HomeScore" type="number" min="0" max="30" inputmode="numeric">
+      <span asp-validation-for="HomeScore"></span>
+    </div>
+    <div class="form-field">
+      <label class="field-label" asp-for="AwayScore">Deplasman skoru <span class="req">*</span></label>
+      <input class="input-a" asp-for="AwayScore" type="number" min="0" max="30" inputmode="numeric">
+      <span asp-validation-for="AwayScore"></span>
+    </div>
+  </div>
+  <div class="form-field">
+    <label class="field-label" asp-for="Referee">Hakem</label>
+    <input class="input-a" asp-for="Referee" placeholder="Örn. Daniele Orsato">
+  </div>
+  <div class="form-field">
+    <label class="field-label" asp-for="Attendance">Seyirci</label>
+    <input class="input-a" asp-for="Attendance" type="number" min="0" inputmode="numeric">
+  </div>
+</div>
+<p class="field-hint" style="margin:14px 0 0">Canlı veya Tamamlandı seçildiğinde skor alanları açılır. Puan durumuna yalnızca Tamamlandı maçlar dahil edilir.</p>

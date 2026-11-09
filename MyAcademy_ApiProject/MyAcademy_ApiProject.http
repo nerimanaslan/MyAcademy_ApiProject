@@ -1,0 +1,16 @@
+@MyAcademy_ApiProject_HostAddress = http://localhost:5279
+
+GET {{MyAcademy_ApiProject_HostAddress}}/api/standings
+Accept: application/json
+
+###
+
+GET {{MyAcademy_ApiProject_HostAddress}}/api/matches/week/12
+Accept: application/json
+
+###
+
+GET {{MyAcademy_ApiProject_HostAddress}}/api/matches/1
+Accept: application/json
+
+###
