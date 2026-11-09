@@ -121,7 +121,7 @@ Visual Studio'da solution'a sağ tıklayıp **Configure Startup Projects → Mul
 ## Örnek veri
 
 20 aktif Serie A takımı (+2 pasif), 11–13. haftalar (her hafta 10 maç, toplam 30 maç).
-11 ve 12. haftalar tamamlandı, 13. hafta oynanmadı (1 maç ertelendi). Oynanan her maçın skorla birebir uyumlu
+11 ve 12. haftalar tamamlandı, 13. hafta oynanmadı (1 maç ertelendi). Ekran görüntüleri 13. haftanın skorları da girildikten sonra alındığı için orada 30 maçın tamamı tamamlanmış görünür. Oynanan her maçın skorla birebir uyumlu
 gol kayıtları, kartları ve istatistiği vardır (`Context/MatchDataGenerator.cs`, gerçek kadrolardan oyuncu isimleriyle);
 1, 11 ve 13 numaralı maçlarda oyuncu değişiklikleri de eksiksizdir. API her açılışta oynanmış ama detayı eksik
 maçları tamamlar, elle girilmiş kayıtlara dokunmaz.
